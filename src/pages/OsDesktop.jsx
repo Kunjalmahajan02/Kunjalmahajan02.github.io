@@ -52,7 +52,7 @@ export default function OsDesktop() {
       <h1 id="page-title" tabIndex={-1} className="visually-hidden">
         Contact — Kunjal.exe OS
       </h1>
-      <div className="os__screen" style={{ '--wall': `url(${base}art/hero-1800.webp)` }}>
+      <div className="os__screen" style={{ '--wall': `url(${new URL(`${base}art/hero-1800.webp`, document.baseURI).href})` }}>
         <div className="os__bar">
           <span className="os__brand">
             <span aria-hidden="true">✦</span> KUNJAL.EXE OS

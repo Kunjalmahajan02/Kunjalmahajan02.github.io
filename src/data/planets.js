@@ -1,6 +1,6 @@
-// The five destinations of the universe. `orbit` and `angle` place each planet
-// on the desktop solar system (see SolarSystem.jsx); the bottom-left of the
-// scene is kept clear for Mini Kunjal.
+// The five destinations of the universe. Where each planet sits is set in
+// components/Scene.jsx; its surface is rendered by tools/make_planets.py.
+// `palette` colours the small planet markers in navigation and lists.
 export const planets = [
   {
     id: 'lab',
@@ -69,7 +69,7 @@ export const planets = [
     angle: -20,
     size: 98,
     feature: 'swirl',
-    ring: true,
+    ring: false,
     palette: { light: '#F6C4DE', base: '#B4669A', dark: '#45193D', band: '#8E4479' },
   },
 ];

@@ -1,15 +1,15 @@
-// A tiny flat planet used in navigation and lists.
+const base = import.meta.env.BASE_URL;
+
+// A small lit planet used in navigation and lists — the same surface as the
+// big one in the scene, so the two read as the same place.
 export default function PlanetDot({ planet, size = 18 }) {
-  const { light, base, dark } = planet.palette;
   return (
     <span
       className={`planet-dot${planet.ring ? ' planet-dot--ring' : ''}`}
       aria-hidden="true"
-      style={{
-        '--size': `${size}px`,
-        '--ring': light,
-        background: `radial-gradient(circle at 35% 30%, ${light}, ${base} 45%, ${dark})`,
-      }}
-    />
+      style={{ '--size': `${size}px`, '--ring': planet.palette.light }}
+    >
+      <img src={`${base}planets/${planet.id}.webp`} alt="" width={size} height={size} loading="lazy" decoding="async" />
+    </span>
   );
 }

@@ -2,7 +2,7 @@
 
 The personal portfolio of **Kunjal Mahajan**, AI & Data Science engineer and creative technologist.
 
-The site is a small, explorable solar system. The planets are the navigation: each one is a link to a part of the work, and Mini Kunjal, the mascot, acts as the guide.
+The site is a small, explorable solar system that fills the screen. The planets are the navigation: selecting one moves the "camera" to it — the planet becomes the backdrop and its content rises over the scene — and **← Universe** (or Esc) flies back. Mini Kunjal, the mascot, sits on her own moon in the foreground as the guide.
 
 | Planet | What's there |
 |---|---|
@@ -16,7 +16,8 @@ The site is a small, explorable solar system. The planets are the navigation: ea
 
 - **React 18** + **Vite 5**, written in plain JavaScript (JSX)
 - Hand-written CSS with design tokens (`src/styles/tokens.css`). There's no UI framework.
-- SVG and CSS for the planets, orbits, constellation and graph. There's no 3D or animation library.
+- One persistent scene (`components/Scene.jsx`) behind every page; camera moves are CSS transitions. There's no 3D or animation library.
+- Planet surfaces are pre-rendered textured spheres (`tools/make_planets.py`); the day/night terminator is applied live in CSS so each planet is lit toward the sun.
 - Self-hosted fonts via Fontsource: Fraunces (display), Manrope (body), JetBrains Mono (labels)
 - **Hash routing** (`#/lab/blinkbridge`), so every route works on GitHub Pages without server rewrites
 - **GitHub Actions** builds the site and deploys it to **GitHub Pages**
@@ -29,7 +30,8 @@ There is no backend, database, API key or paid service. The whole site is static
 index.html                 Page shell, meta tags, social preview
 vite.config.js             base: './' → relative asset paths (works on any Pages URL)
 public/                    Copied as-is into the build
-  mascot/                  Mini Kunjal cutout (webp + png, 1x/2x) and round avatar
+  mascot/                  Mini Kunjal transparent cutout (webp 1x/2x, png fallback) and round avatar
+  planets/                 Rendered planet surfaces and Mini Kunjal's moon
   favicon.png, apple-touch-icon.png, og-image.png
 reference/reference-ui.webp  Original reference artwork the mascot is cut from
 src/
@@ -44,11 +46,12 @@ src/
     graph.js               Living System nodes and edges
     archive.js             Idea Archive entries
     creative.js            Creative Realm sections (add photos here)
-  components/              SolarSystem, PlanetArt, Mascot, FlowDiagram, CustodySim, Terminal, …
+  components/              Scene (the universe + camera), Planet, Mascot, Pipeline, PlanetPage, CustodySim, Terminal, …
   pages/                   One file per destination
   styles/                  tokens, base, universe (home), destinations
 tools/
-  make_mascot.py           Rebuilds the mascot assets from the reference artwork
+  make_mascot.py           Cuts Mini Kunjal out of the reference artwork (u2net + GrabCut, rim light)
+  make_planets.py          Renders the planet surfaces
   make_og.py               Rebuilds the social preview image
   check-dist.mjs           Post-build checks (relative paths, required assets, no secrets)
 .github/workflows/deploy.yml  Build + deploy to GitHub Pages
@@ -58,7 +61,7 @@ tools/
 
 - **Node.js 20 or newer** (CI uses Node 22) and npm
 - **Git**
-- Optional: **Python 3** with Pillow, OpenCV and NumPy, but only if you want to regenerate the mascot or social image
+- Optional: **Python 3** with Pillow, OpenCV and NumPy — only to regenerate artwork. `make_mascot.py` also needs `onnxruntime` and downloads the open-source u2net model (~176 MB) once to `~/.u2net/`.
 
 ## Run it locally
 

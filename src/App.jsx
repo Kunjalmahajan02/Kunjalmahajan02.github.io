@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { useRoute } from './router.js';
+import { go, useRoute } from './router.js';
 import Starfield from './components/Starfield.jsx';
+import Scene from './components/Scene.jsx';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Universe from './pages/Universe.jsx';
@@ -12,6 +13,7 @@ import IdeaArchive from './pages/IdeaArchive.jsx';
 import CreativeRealm from './pages/CreativeRealm.jsx';
 import NotFound from './pages/NotFound.jsx';
 import { projectById } from './data/projects.js';
+import { planetById } from './data/planets.js';
 
 function pageFor([section, sub]) {
   switch (section) {
@@ -38,6 +40,24 @@ export default function App() {
   const [section, sub] = route;
   const pageKey = section === 'lab' ? `lab/${sub ?? ''}` : section ?? 'home';
   const first = useRef(true);
+  const focus = planetById[section] ? section : null;
+
+  // Lets CSS tell the overview from a destination (header, footer, veil).
+  useEffect(() => {
+    document.documentElement.dataset.view = section === undefined ? 'universe' : 'destination';
+  }, [section]);
+
+  // Escape always returns to the universe from a planet.
+  useEffect(() => {
+    if (!focus) return undefined;
+    const onKey = (e) => {
+      if (e.key !== 'Escape' || e.defaultPrevented) return;
+      if (e.target.closest?.('input, textarea, select')) return;
+      go('');
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [focus]);
 
   // On a real page change, start at the top and move focus to the new heading
   // so keyboard and screen-reader users land in the right place.
@@ -63,6 +83,7 @@ export default function App() {
       </a>
       <Starfield />
       <Header current={section} />
+      <Scene focus={focus} />
       <main id="main" tabIndex={-1} key={pageKey} className="page-enter">
         {pageFor(route)}
       </main>

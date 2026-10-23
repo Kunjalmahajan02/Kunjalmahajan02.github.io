@@ -48,8 +48,8 @@ planet(820, 150, 22, (255, 246, 236), (119, 87, 74))
 
 # mascot
 m = Image.open("public/mascot/mini-kunjal@2x.webp").convert("RGBA")
-m = m.resize((int(m.width * 470 / m.height), 470), Image.LANCZOS)
-img.paste(m, (450, 120), m)
+m = m.resize((int(m.width * 380 / m.height), 380), Image.LANCZOS)
+img.paste(m, (520, 250), m)
 
 def font(patterns, size):
     for pat in patterns:

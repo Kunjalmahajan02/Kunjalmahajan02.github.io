@@ -3,7 +3,7 @@ import { projects } from '../data/projects.js';
 import { href, useDocumentTitle } from '../router.js';
 import { isReducedMotion } from '../motion.js';
 import PlanetPage from '../components/PlanetPage.jsx';
-import FlowDiagram from '../components/FlowDiagram.jsx';
+import Pipeline from '../components/Pipeline.jsx';
 import EvidenceBadge from '../components/EvidenceBadge.jsx';
 import CustodySim from '../components/CustodySim.jsx';
 
@@ -40,7 +40,24 @@ export default function ProjectDetail({ project: p }) {
   };
 
   return (
-    <PlanetPage planet={planetById.lab} title={p.name} lead={p.tagline} crumbs={[p.name]}>
+    <PlanetPage
+      planet={planetById.lab}
+      title={p.name}
+      lead={p.tagline}
+      crumbs={[p.name]}
+      actions={
+        p.links.length > 0 ? (
+          p.links.slice(0, 2).map((l, n) => (
+            <a key={l.href} className={`btn btn--small${n === 0 ? ' btn--accent' : ''}`} href={l.href} target="_blank" rel="noreferrer">
+              {l.label}
+              <span className="visually-hidden"> (opens in a new tab)</span> ↗
+            </a>
+          ))
+        ) : (
+          <span className="empty-note">Code not public yet — details below are from the project description.</span>
+        )
+      }
+    >
       <div className="case">
         <aside className="case__file" aria-label="Case file">
           <p className="mono case__file-head">CASE FILE · {p.moon}</p>
@@ -116,8 +133,7 @@ export default function ProjectDetail({ project: p }) {
           </Section>
 
           <Section id="workflow" title="How it works">
-            <p className="section-hint">Select a stage to see what happens there.</p>
-            <FlowDiagram steps={p.flow} label={`${p.name} workflow`} />
+            <Pipeline steps={p.flow} label={`${p.name} workflow`} />
           </Section>
 
           {p.id === 'chaintrack' && (

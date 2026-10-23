@@ -34,6 +34,12 @@ for (const f of [
   'mascot/mini-kunjal@2x.webp',
   'mascot/mini-kunjal.png',
   'mascot/avatar.webp',
+  'planets/lab.webp',
+  'planets/observatory.webp',
+  'planets/system.webp',
+  'planets/archive.webp',
+  'planets/creative.webp',
+  'planets/home-moon.webp',
 ]) {
   if (!existsSync(join(dist, f))) fail(`missing asset: ${f}`);
 }

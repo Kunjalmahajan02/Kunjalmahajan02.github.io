@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { planetById } from '../data/planets.js';
 import { edges, kinds, neighbours, nodeById, nodes } from '../data/graph.js';
-import { href, replacePath, useDocumentTitle } from '../router.js';
-import PlanetPage from '../components/PlanetPage.jsx';
+import { href, replacePath } from '../router.js';
+import Win from '../components/Win.jsx';
 
 const W = 1000;
 const H = 640;
@@ -28,7 +27,6 @@ const filters = [
 ];
 
 export default function LivingSystem({ nodeId }) {
-  useDocumentTitle('The Living System');
   const [selected, setSelected] = useState(nodeById[nodeId] ? nodeId : 'blinkbridge');
   const [filter, setFilter] = useState('all');
 
@@ -38,7 +36,7 @@ export default function LivingSystem({ nodeId }) {
 
   const select = (id) => {
     setSelected(id);
-    replacePath(`system/${id}`);
+    replacePath(`research/map/${id}`);
   };
 
   const n = nodeById[selected];
@@ -46,11 +44,8 @@ export default function LivingSystem({ nodeId }) {
   const nearSet = new Set(near);
 
   return (
-    <PlanetPage
-      planet={planetById.system}
-      title="The Living System"
-      lead="Projects, the tools they’re built with, and the research themes they touch — linked only where the connection is real. Select any node to trace it."
-    >
+    <Win title="Data Realm · how it all connects" icon="◎" className="research__win">
+      <p className="research__lead">Projects, the tools they’re built with, and the research themes they touch — linked only where the connection is real. Select any node to trace it.</p>
       <div className="living">
         <div className="living__controls" role="group" aria-label="Highlight node type">
           {filters.map((f) => (
@@ -100,7 +95,7 @@ export default function LivingSystem({ nodeId }) {
           {n.route && (
             <p>
               <a className="btn btn--small" href={href(n.route)}>
-                {n.kind === 'project' ? 'Open case study' : 'Visit in the Observatory'} →
+                {n.kind === 'project' ? 'Open case study' : 'Open the research topic'} →
               </a>
             </p>
           )}
@@ -130,6 +125,6 @@ export default function LivingSystem({ nodeId }) {
           </span>
         </p>
       </div>
-    </PlanetPage>
+    </Win>
   );
 }

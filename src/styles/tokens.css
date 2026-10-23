@@ -1,49 +1,49 @@
-/* Kunjal.exe design tokens */
+/* Kunjal.exe design tokens — pink night, after the reference board */
 :root {
-  /* palette */
-  --plum: #211629;
-  --plum-deep: #170f1d;
-  --violet: #30233d;
-  --violet-soft: #3b2c4b;
-  --rose: #dda7c6;
-  --rose-strong: #eebfd8;
-  --lavender: #b9aed8;
+  /* night sky */
+  --night: #1b1029;
+  --night-2: #261537;
+  --night-3: #34204a;
+  --glow: #ff9fd2;
+  --glow-soft: rgba(255, 159, 210, 0.35);
+
+  /* pink windows */
+  --paper: #fdf0f7;
+  --paper-2: #f9e1ee;
+  --paper-3: #f3cfe3;
+  --paper-line: #efc3db;
+  --ink: #3b2140; /* 11.9:1 on --paper */
+  --ink-soft: #6b4a70; /* 6.6:1 on --paper */
+  --ink-muted: #8a6a8e; /* 4.6:1 on --paper */
+
+  /* accents */
+  --pink: #e46aa8;
+  --pink-deep: #a8417c; /* 5.4:1 on --paper */
+  --plum: #6f2b5c;
+  --lavender: #c6b6ee;
+  --lavender-deep: #6a58a6;
   --ivory: #fff7fb;
-  --silver: #d7d3df;
 
-  /* text */
-  --text: var(--ivory);
-  --text-soft: #d9cfe2; /* 11.6:1 on plum */
-  --text-muted: #b3a6c2; /* 7.3:1 on plum */
-
-  /* surfaces & lines */
-  --surface: rgba(48, 35, 61, 0.62);
-  --surface-solid: #2a1e35;
-  --line: rgba(215, 211, 223, 0.16);
-  --line-strong: rgba(215, 211, 223, 0.3);
+  /* text on night */
+  --on-night: #fff4fa;
+  --on-night-soft: #e8d3ea;
+  --on-night-muted: #c0a6c8;
 
   /* type */
-  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-body: 'Manrope Variable', 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-hand: 'Caveat', 'Segoe Print', 'Comic Sans MS', cursive;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
 
-  --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.86rem);
-  --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.08rem);
-  --step-1: clamp(1.2rem, 1.1rem + 0.4vw, 1.4rem);
-  --step-2: clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
-  --step-3: clamp(2rem, 1.6rem + 1.8vw, 3rem);
-  --step-4: clamp(2.7rem, 2rem + 3.4vw, 5rem);
-
   /* layout */
-  --gutter: clamp(16px, 4vw, 48px);
-  --max: 1240px;
+  --gutter: clamp(16px, 3vw, 40px);
+  --max: 1280px;
   --radius: 14px;
-  --radius-lg: 22px;
+  --radius-lg: 20px;
+  --shadow: 0 24px 60px -28px rgba(20, 6, 30, 0.75), 0 2px 0 rgba(255, 255, 255, 0.5) inset;
 
-  /* motion */
   --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
   --fast: 180ms;
-  --slow: 600ms;
 
   color-scheme: dark;
 }

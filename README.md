@@ -2,24 +2,25 @@
 
 The personal portfolio of **Kunjal Mahajan**, AI & Data Science engineer and creative technologist.
 
-The site is a small, explorable solar system that fills the screen. The planets are the navigation: selecting one moves the "camera" to it — the planet becomes the backdrop and its content rises over the scene — and **← Universe** (or Esc) flies back. Mini Kunjal, the mascot, sits on her own moon in the foreground as the guide.
+A dreamy, pink, illustrated portfolio built from Kunjal's own reference board: her room at night, an illustrated universe of planets, a Kunjal.exe OS desktop, project windows, a notebook and a moodboard. All the text, menus, tabs and the terminal are real HTML; the illustrations come from the reference board.
 
-| Planet | What's there |
+| Page | What's there |
 |---|---|
-| 01 · **AI Lab** | Case studies for BlinkBridge AI, the Speech-to-Text & Translation Engine, and ChainTrack, each with a workflow diagram you can step through. ChainTrack also has an in-browser simulation of the contract's rules. |
-| 02 · **Research Observatory** | A constellation of six research interests. Select a star to see related projects and future write-ups. |
-| 03 · **The Living System** | An interactive graph of projects, technologies and research themes, linked only where the connection is real. |
-| 04 · **The Idea Archive** | Notebook pages: project logs, concepts, lessons and future ideas, plus a small terminal that can navigate the site. |
-| 05 · **Creative Realm** | Dance, art, fashion and modeling, with a gallery ready for photos. |
+| **Home** | Mini Kunjal's room with the glowing Kunjal.exe title, a working menu, and a short project log. |
+| **Universe** | The illustrated planets — each one is a link (AI Lab, Language Nebula, Vision Station, Open Questions, Data Realm, Mission Control, Idea Archive, Creative Planet). |
+| **Projects** | A project window with tabs (overview, how it works, tech stack, results, future scope) for BlinkBridge AI, the Speech-to-Text & Translation Engine and ChainTrack. "Try it" has a Morse blink toy and an in-browser model of ChainTrack's contract rules. |
+| **Research** | "Open Questions" — a star map of research interests — and "Data Realm", a graph of how projects, tools and themes connect. |
+| **Archive** | A pink notebook of project logs, concepts, lessons and future ideas, each linked to its source. |
+| **Creative** | A moodboard gallery for dance, art, fashion and modeling (ready for real photos). |
+| **Contact** | Kunjal.exe OS: desktop icons, a working terminal, System Info and contact links. |
 
 ## Tech stack
 
 - **React 18** + **Vite 5**, written in plain JavaScript (JSX)
 - Hand-written CSS with design tokens (`src/styles/tokens.css`). There's no UI framework.
-- One persistent scene (`components/Scene.jsx`) behind every page; camera moves are CSS transitions. There's no 3D or animation library.
-- Planet surfaces are pre-rendered textured spheres (`tools/make_planets.py`); the day/night terminator is applied live in CSS so each planet is lit toward the sun.
-- Self-hosted fonts via Fontsource: Fraunces (display), Manrope (body), JetBrains Mono (labels)
-- **Hash routing** (`#/lab/blinkbridge`), so every route works on GitHub Pages without server rewrites
+- Illustrations are cut from `reference/reference-ui.webp`, cleaned of baked-in text and upscaled 4× with Real-ESRGAN (`tools/make_art.py`).
+- Self-hosted fonts via Fontsource: Playfair Display (wordmark), Caveat (handwriting), Manrope (body), JetBrains Mono (terminal)
+- **Hash routing** (`#/projects/blinkbridge`), so every route works on GitHub Pages without server rewrites
 - **GitHub Actions** builds the site and deploys it to **GitHub Pages**
 
 There is no backend, database, API key or paid service. The whole site is static files.
@@ -30,28 +31,27 @@ There is no backend, database, API key or paid service. The whole site is static
 index.html                 Page shell, meta tags, social preview
 vite.config.js             base: './' → relative asset paths (works on any Pages URL)
 public/                    Copied as-is into the build
-  mascot/                  Mini Kunjal transparent cutout (webp 1x/2x, png fallback) and round avatar
-  planets/                 Rendered planet surfaces and Mini Kunjal's moon
+  art/                     Illustrations (room, universe, stickers, icons, moodboard) at several widths
+  mascot/avatar.webp       Round avatar for the header
   favicon.png, apple-touch-icon.png, og-image.png
-reference/reference-ui.webp  Original reference artwork the mascot is cut from
+reference/reference-ui.webp  Kunjal's reference board — the source of every illustration
 src/
   main.jsx, App.jsx        Entry point and route table
   router.js                Tiny hash router (+ document titles)
-  motion.js                Reduced-motion preference (OS setting + footer toggle)
+  motion.js, vibe.js       Reduced-motion preference; the "just vibe ♡" mode
   data/                    ← All content lives here (edit these to update the site)
-    profile.js             Name, intro, links
-    planets.js             The five planets: names, colours, orbit positions
-    projects.js            AI Lab case studies (with evidence notes)
-    research.js            Observatory topics (add papers/notes here)
-    graph.js               Living System nodes and edges
+    profile.js             Name, college, location, "currently", links
+    worlds.js              Where each clickable planet sits in the universe artwork
+    projects.js            Project case studies (with evidence notes)
+    research.js            Research topics (add papers/notes here)
+    graph.js               Data Realm nodes and edges
     archive.js             Idea Archive entries
-    creative.js            Creative Realm sections (add photos here)
-  components/              Scene (the universe + camera), Planet, Mascot, Pipeline, PlanetPage, CustodySim, Terminal, …
-  pages/                   One file per destination
-  styles/                  tokens, base, universe (home), destinations
+    creative.js            Creative sections (add photos here)
+  components/              Win (pink window), Art, Terminal, Pipeline, CustodySim, MorsePlay, …
+  pages/                   Home, UniverseMap, Projects, Research, IdeaArchive, CreativeRealm, OsDesktop
+  styles/                  tokens, base, pages
 tools/
-  make_mascot.py           Cuts Mini Kunjal out of the reference artwork (u2net + GrabCut, rim light)
-  make_planets.py          Renders the planet surfaces
+  make_art.py              Cleans and upscales the illustrations from the reference board
   make_og.py               Rebuilds the social preview image
   check-dist.mjs           Post-build checks (relative paths, required assets, no secrets)
 .github/workflows/deploy.yml  Build + deploy to GitHub Pages
@@ -61,7 +61,7 @@ tools/
 
 - **Node.js 20 or newer** (CI uses Node 22) and npm
 - **Git**
-- Optional: **Python 3** with Pillow, OpenCV and NumPy — only to regenerate artwork. `make_mascot.py` also needs `onnxruntime` and downloads the open-source u2net model (~176 MB) once to `~/.u2net/`.
+- Optional: **Python 3** with Pillow, OpenCV, NumPy and `realesrgan-ncnn-py` — only to regenerate the artwork (`python tools/make_art.py`; it upscales on the GPU via Vulkan).
 
 ## Run it locally
 
@@ -87,7 +87,7 @@ npm run preview    # serves dist/ locally to try the production build
 - **User site:** repository named exactly `Kunjalmahajan02.github.io` → `https://kunjalmahajan02.github.io/`
 - **Project site:** any other repository name, e.g. `kunjal-universe` → `https://kunjalmahajan02.github.io/kunjal-universe/`
 
-Because routes live after the `#`, refreshing or sharing a deep link such as `…/#/lab/chaintrack` always works. GitHub Pages only ever serves `index.html`.
+Because routes live after the `#`, refreshing or sharing a deep link such as `…/#/projects/chaintrack` always works. GitHub Pages only ever serves `index.html`.
 
 The one place that benefits from an absolute URL is the social preview. Once you know the final address, change the two `og-image.png` lines in `index.html` to the full URL (for example `https://kunjalmahajan02.github.io/og-image.png`) and add `<meta property="og:url" content="…">`. Link previews on LinkedIn, WhatsApp and similar sites need absolute image URLs.
 
@@ -149,4 +149,4 @@ Almost everything is data in `src/data/`. Edit, run `npm run dev` to check, then
 
 ## Credits
 
-Mini Kunjal is cut from the reference illustration Kunjal supplied (`reference/reference-ui.webp`) by `tools/make_mascot.py`.
+Every illustration — Mini Kunjal's room, the universe, the robot, the cat, the chibi stickers, desktop icons and moodboard images — comes from the reference board Kunjal supplied (`reference/reference-ui.webp`), processed by `tools/make_art.py`.

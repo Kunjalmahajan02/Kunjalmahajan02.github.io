@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { planetById } from '../data/planets.js';
 import { topics, topicById } from '../data/research.js';
 import { projectById } from '../data/projects.js';
-import { href, replacePath, useDocumentTitle } from '../router.js';
-import PlanetPage from '../components/PlanetPage.jsx';
+import { href, replacePath } from '../router.js';
+import Win from '../components/Win.jsx';
 
 // Unique pairs of related topics, drawn as constellation lines.
 const links = [];
@@ -15,7 +14,6 @@ topics.forEach((t) =>
 );
 
 export default function Observatory({ topicId }) {
-  useDocumentTitle('Research Observatory');
   const [selected, setSelected] = useState(topicById[topicId] ? topicId : topics[0].id);
 
   useEffect(() => {
@@ -24,18 +22,15 @@ export default function Observatory({ topicId }) {
 
   const select = (id) => {
     setSelected(id);
-    replacePath(`observatory/${id}`);
+    replacePath(`research/${id}`);
   };
 
   const t = topicById[selected];
   const near = new Set(t.related);
 
   return (
-    <PlanetPage
-      planet={planetById.observatory}
-      title="Research Observatory"
-      lead="The areas I’m studying and building toward. These are interests and explorations, not published research — each star links to the work where it shows up so far."
-    >
+    <Win title="Star map · research interests" icon="✧" className="research__win">
+      <p className="research__lead">Areas I’m studying and building toward — interests and explorations, not published research. Each star links to the work where it shows up so far.</p>
       <div className="observatory">
         <div className="constellation">
           <p className="mono constellation__head">STAR MAP · 6 TOPICS · SELECT A STAR</p>
@@ -97,7 +92,7 @@ export default function Observatory({ topicId }) {
             <ul className="topic__projects">
               {t.projects.map((id) => (
                 <li key={id}>
-                  <a href={href(`lab/${id}`)}>{projectById[id].name} →</a>
+                  <a href={href(`projects/${id}`)}>{projectById[id].name} →</a>
                 </li>
               ))}
             </ul>
@@ -132,10 +127,10 @@ export default function Observatory({ topicId }) {
             ))}
           </ul>
           <p className="topic__map-link">
-            <a href={href('system')}>See how this connects in the Living System →</a>
+            <a href={href('research/map')}>See how this connects in the Data Realm →</a>
           </p>
         </section>
       </div>
-    </PlanetPage>
+    </Win>
   );
 }

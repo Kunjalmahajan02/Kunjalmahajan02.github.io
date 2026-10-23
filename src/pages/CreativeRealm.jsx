@@ -1,97 +1,91 @@
 import { useState } from 'react';
-import { planetById } from '../data/planets.js';
 import { creativeQuote, realms } from '../data/creative.js';
 import { useDocumentTitle } from '../router.js';
-import PlanetPage from '../components/PlanetPage.jsx';
+import Win from '../components/Win.jsx';
+import Art from '../components/Art.jsx';
 
 const base = import.meta.env.BASE_URL;
 
-// Fine-line motifs standing in for each realm until photos are added.
-function Motif({ kind }) {
-  const common = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.2, strokeLinecap: 'round' };
-  switch (kind) {
-    case 'wave':
-      return (
-        <g {...common}>
-          <path d="M10 70 C40 20 70 120 100 60 S160 20 190 70" />
-          <path d="M10 90 C40 40 70 140 100 80 S160 40 190 90" opacity="0.5" />
-          <circle cx="100" cy="36" r="6" />
-        </g>
-      );
-    case 'sketch':
-      return (
-        <g {...common}>
-          <path d="M40 120 L120 40 L140 60 L60 140 Z" />
-          <path d="M120 40 L132 28 L152 48 L140 60" />
-          <path d="M30 150 C70 130 110 160 170 135" opacity="0.5" />
-        </g>
-      );
-    case 'drape':
-      return (
-        <g {...common}>
-          <path d="M100 20 L70 50 L60 160 L140 160 L130 50 Z" />
-          <path d="M70 50 C85 70 115 70 130 50" />
-          <path d="M80 160 C90 110 85 90 95 60 M120 160 C110 110 115 90 105 60" opacity="0.5" />
-        </g>
-      );
-    default:
-      return (
-        <g {...common}>
-          <rect x="45" y="25" width="110" height="130" rx="4" />
-          <circle cx="100" cy="72" r="18" />
-          <path d="M65 145 C70 110 130 110 135 145" />
-        </g>
-      );
-  }
-}
+// Moodboard pieces from the reference board, used until real photos are
+// added in src/data/creative.js.
+const MOODBOARD = [
+  { name: 'mood-dance', w: 636, h: 792, realm: 'dance', alt: 'Illustration of Mini Kunjal mid-dance in a studio, with “Rhythm Reigners” written on the wall.' },
+  { name: 'mood-back', w: 572, h: 520, realm: 'fashion', alt: 'Illustration of Mini Kunjal from behind in a backless top, against a painted floral wall.' },
+  { name: 'mood-portrait', w: 688, h: 378, realm: 'modeling', alt: 'Illustrated portrait of Mini Kunjal in sunglasses, hair blowing in warm light.' },
+  { name: 'mood-sketch', w: 432, h: 312, realm: 'art', alt: 'A pencil sketch of Mini Kunjal looking over her shoulder.' },
+];
+
+const FILTERS = [
+  { id: 'all', label: 'All' },
+  { id: 'dance', label: 'Dance' },
+  { id: 'art', label: 'Art' },
+  { id: 'fashion', label: 'Fashion' },
+  { id: 'modeling', label: 'Modeling' },
+];
 
 export default function CreativeRealm() {
-  useDocumentTitle('Creative Realm');
+  useDocumentTitle('The Creative Planet');
   const [filter, setFilter] = useState('all');
-  const shown = filter === 'all' ? realms : realms.filter((r) => r.id === filter);
+
+  const photos = realms.flatMap((r) => r.photos.map((ph) => ({ ...ph, realm: r.id, photo: true })));
+  const items = [...photos, ...MOODBOARD].filter((i) => filter === 'all' || i.realm === filter);
 
   return (
-    <PlanetPage
-      planet={planetById.creative}
-      title="Creative Realm"
-      lead="The orbit outside engineering — dance, art, fashion and modeling. Different instruments, same curiosity."
-    >
-      <blockquote className="creative__quote">
-        <p>“{creativeQuote}”</p>
-      </blockquote>
-
-      <div className="creative__filters" role="group" aria-label="Show realm">
-        {[{ id: 'all', name: 'All' }, ...realms].map((r) => (
-          <button key={r.id} type="button" aria-pressed={filter === r.id} onClick={() => setFilter(r.id)}>
-            {r.id === 'all' ? 'All' : r.name.split(/[ ,&]/)[0]}
-          </button>
-        ))}
+    <div className="creative">
+      <div className="page-head">
+        <h1 id="page-title" tabIndex={-1} className="glow-title">
+          The Creative Planet
+        </h1>
+        <p>Because creativity keeps me sane.</p>
       </div>
 
-      <ul className={`gallery${shown.length === 1 ? ' gallery--single' : ''}`}>
-        {shown.map((r) => (
-          <li key={r.id} className="frame">
-            {r.photos.length > 0 ? (
-              <div className="frame__photos">
-                {r.photos.map((ph) => (
-                  <img key={ph.src} src={`${base}${ph.src}`} alt={ph.alt} loading="lazy" />
-                ))}
-              </div>
-            ) : (
-              <div className="frame__art">
-                <svg viewBox="0 0 200 180" aria-hidden="true" focusable="false">
-                  <Motif kind={r.motif} />
-                </svg>
-                <p className="mono frame__empty">PHOTOS COMING SOON</p>
-              </div>
-            )}
-            <div className="frame__caption">
-              <h2>{r.name}</h2>
-              <p>{r.line}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </PlanetPage>
+      <div className="creative__layout">
+        <Win title="Gallery" icon="✿" bodyClass="creative__body">
+          <div className="creative__filters" role="group" aria-label="Show">
+            {FILTERS.map((f) => (
+              <button key={f.id} type="button" aria-pressed={filter === f.id} onClick={() => setFilter(f.id)}>
+                {f.label}
+              </button>
+            ))}
+          </div>
+
+          {items.length === 0 ? (
+            <p className="empty-note">Nothing in this corner yet — photos coming soon.</p>
+          ) : (
+            <ul className={`collage collage--${items.length}`}>
+              {items.map((i) => (
+                <li key={i.name ?? i.src} className="polaroid">
+                  {i.photo ? (
+                    <img src={`${base}${i.src}`} alt={i.alt} loading="lazy" />
+                  ) : (
+                    <Art name={i.name} widths={[i.w]} alt={i.alt} width={i.w} height={i.h} />
+                  )}
+                  <span className="polaroid__tag hand">{FILTERS.find((f) => f.id === i.realm)?.label}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          <p className="creative__note">
+            ✦ Moodboard illustrations for now — real photos from dance, art, fashion and modeling are coming soon.
+          </p>
+        </Win>
+
+        <aside className="creative__side">
+          <p className="bubble bubble--down creative__quote">{creativeQuote} ♡</p>
+          <figure className="creative__me">
+            <Art name="camera-girl" widths={[352]} alt="Chibi Mini Kunjal holding a camera." width="352" height="468" />
+          </figure>
+          <p className="bubble bubble--up creative__aside">art is my other way of coding ♡</p>
+          <ul className="creative__realms">
+            {realms.map((r) => (
+              <li key={r.id}>
+                <strong>{r.name}</strong>
+                <span>{r.line}</span>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      </div>
+    </div>
   );
 }

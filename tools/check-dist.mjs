@@ -30,16 +30,13 @@ for (const f of [
   'favicon.png',
   'apple-touch-icon.png',
   'og-image.png',
-  'mascot/mini-kunjal.webp',
-  'mascot/mini-kunjal@2x.webp',
-  'mascot/mini-kunjal.png',
   'mascot/avatar.webp',
-  'planets/lab.webp',
-  'planets/observatory.webp',
-  'planets/system.webp',
-  'planets/archive.webp',
-  'planets/creative.webp',
-  'planets/home-moon.webp',
+  'art/hero-1100.webp',
+  'art/hero-2600.webp',
+  'art/universe-1100.webp',
+  'art/universe-2600.webp',
+  'art/robot-os-336.webp',
+  'art/icon-terminal.webp',
 ]) {
   if (!existsSync(join(dist, f))) fail(`missing asset: ${f}`);
 }

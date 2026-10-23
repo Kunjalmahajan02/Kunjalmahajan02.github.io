@@ -1,0 +1,117 @@
+// Research Observatory topics. These are areas of interest and exploration,
+// not published research. To add real work later, push entries into a topic's
+// `papers` (title, venue/year, href) or `notes` (title, href) arrays — the
+// page renders them automatically and hides the empty state.
+//
+// `x`/`y` place each star on the constellation (0–100 in both directions).
+
+export const topics = [
+  {
+    id: 'vision',
+    star: 'α',
+    name: 'Computer vision & image processing',
+    short: 'Computer vision',
+    x: 18,
+    y: 30,
+    why: 'Turning pixels into signals a system can act on — landmarks, ratios, thresholds — and making that hold up under bad light and odd angles.',
+    exploring: [
+      'Facial landmark geometry (Eye Aspect Ratio) as a lightweight alternative to training a classifier',
+      'Low-light enhancement with gamma correction and CLAHE before detection',
+      'Making detection less sensitive to camera angle and orientation',
+    ],
+    projects: ['blinkbridge'],
+    related: ['hci', 'deep', 'data'],
+    papers: [],
+    notes: [],
+  },
+  {
+    id: 'deep',
+    star: 'β',
+    name: 'Deep learning & neural networks',
+    short: 'Deep learning',
+    x: 46,
+    y: 16,
+    why: 'Most of the tools behind my projects — face landmark models, speech recognition — are neural networks. I want to understand them from the inside, not only as services.',
+    exploring: [
+      'How pretrained models like MediaPipe Face Mesh are built and where they fail',
+      'Convolutional networks for vision tasks',
+      'Evaluating models honestly: what to measure and how to report it',
+    ],
+    projects: [],
+    related: ['vision', 'nlp', 'speech'],
+    papers: [],
+    notes: [],
+  },
+  {
+    id: 'nlp',
+    star: 'γ',
+    name: 'Natural language processing & multilingual AI',
+    short: 'Multilingual NLP',
+    x: 76,
+    y: 28,
+    why: 'Language tools work best in a handful of languages. I’m interested in what it takes to make them useful in Hindi, Marathi and the other languages people around me actually speak.',
+    exploring: [
+      'Translation versus transliteration — when a name should be written, not translated',
+      'Offline phrasebooks as a private fallback to online translation',
+      'Machine translation quality in lower-resource languages',
+    ],
+    projects: ['speech', 'blinkbridge'],
+    related: ['speech', 'deep'],
+    papers: [],
+    notes: [],
+  },
+  {
+    id: 'speech',
+    star: 'δ',
+    name: 'Speech processing & language translation',
+    short: 'Speech & translation',
+    x: 84,
+    y: 66,
+    why: 'Speech is the most natural interface there is. Chaining recognition, translation and synthesis turns one recording into something many people can understand.',
+    exploring: [
+      'Speech-to-text → translation → text-to-speech pipelines',
+      'Offline speech output and its trade-offs against cloud voices',
+    ],
+    projects: ['speech', 'blinkbridge'],
+    related: ['nlp', 'deep', 'hci'],
+    papers: [],
+    notes: [],
+  },
+  {
+    id: 'data',
+    star: 'ε',
+    name: 'Data analytics & visualization',
+    short: 'Data & visualization',
+    x: 30,
+    y: 74,
+    why: 'A graph of a signal is often the fastest way to see where a system went wrong — and the clearest way to show someone else.',
+    exploring: [
+      'Signal plots (like the EAR graph) as a debugging and review tool',
+      'Summarising evaluation runs into tables that can be compared',
+    ],
+    projects: ['blinkbridge'],
+    related: ['vision', 'deep'],
+    papers: [],
+    notes: [],
+  },
+  {
+    id: 'hci',
+    star: 'ζ',
+    name: 'Accessible human-computer interaction',
+    short: 'Accessible HCI',
+    x: 56,
+    y: 84,
+    why: 'Technology should adapt to the person, not the other way round — especially for people who can’t use a keyboard, a mouse or their voice.',
+    exploring: [
+      'Eye blinks and head gestures as input',
+      'Calibrating to the individual instead of using fixed thresholds',
+      'Keeping a human in the loop when an automated reading could be wrong',
+    ],
+    projects: ['blinkbridge'],
+    related: ['vision', 'speech'],
+    papers: [],
+    notes: [],
+  },
+];
+
+export const topicById = Object.fromEntries(topics.map((t) => [t.id, t]));

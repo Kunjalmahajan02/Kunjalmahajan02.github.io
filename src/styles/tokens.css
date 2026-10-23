@@ -1,0 +1,49 @@
+/* Kunjal.exe design tokens */
+:root {
+  /* palette */
+  --plum: #211629;
+  --plum-deep: #170f1d;
+  --violet: #30233d;
+  --violet-soft: #3b2c4b;
+  --rose: #dda7c6;
+  --rose-strong: #eebfd8;
+  --lavender: #b9aed8;
+  --ivory: #fff7fb;
+  --silver: #d7d3df;
+
+  /* text */
+  --text: var(--ivory);
+  --text-soft: #d9cfe2; /* 11.6:1 on plum */
+  --text-muted: #b3a6c2; /* 7.3:1 on plum */
+
+  /* surfaces & lines */
+  --surface: rgba(48, 35, 61, 0.62);
+  --surface-solid: #2a1e35;
+  --line: rgba(215, 211, 223, 0.16);
+  --line-strong: rgba(215, 211, 223, 0.3);
+
+  /* type */
+  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Manrope Variable', 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+
+  --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.86rem);
+  --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.08rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.4vw, 1.4rem);
+  --step-2: clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
+  --step-3: clamp(2rem, 1.6rem + 1.8vw, 3rem);
+  --step-4: clamp(2.7rem, 2rem + 3.4vw, 5rem);
+
+  /* layout */
+  --gutter: clamp(16px, 4vw, 48px);
+  --max: 1240px;
+  --radius: 14px;
+  --radius-lg: 22px;
+
+  /* motion */
+  --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+  --fast: 180ms;
+  --slow: 600ms;
+
+  color-scheme: dark;
+}

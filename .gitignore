@@ -1,0 +1,10 @@
+node_modules/
+dist/
+_work/
+*.log
+.env
+.env.*
+.vite/
+.DS_Store
+Thumbs.db
+.claude/

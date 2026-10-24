@@ -1,6 +1,6 @@
 # Kunjal.exe — Her Little Universe
 
-kunjalmahajan02.github.io
+https://kunjalmahajan02.github.io/
 
 The personal portfolio of **Kunjal Mahajan**, AI & Data Science engineer and creative technologist.
 

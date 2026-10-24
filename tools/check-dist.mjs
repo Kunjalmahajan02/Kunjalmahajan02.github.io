@@ -31,10 +31,10 @@ for (const f of [
   'apple-touch-icon.png',
   'og-image.png',
   'resume/Kunjal_Mahajan_Resume.pdf',
-  'art/mood-dance-636.webp',
-  'art/mood-sketch-432.webp',
-  'art/mood-back-572.webp',
-  'art/mood-portrait-688.webp',
+  'art/creative-dance-640.webp',
+  'art/creative-art-640.webp',
+  'art/creative-fashion-640.webp',
+  'art/creative-modeling-640.webp',
 ]) {
   if (!existsSync(join(dist, f))) fail(`missing asset: ${f}`);
 }

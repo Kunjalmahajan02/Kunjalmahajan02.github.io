@@ -3,7 +3,7 @@ import { profile } from '../data/profile.js';
 import { projectById } from '../data/projects.js';
 
 const BASE = import.meta.env.BASE_URL;
-const FEATURED = ['blinkbridge', 'chaintrack', 'tb-detection'];
+const FEATURED = ['blinkbridge', 'chaintrack'];
 
 export const APPS = [
   {
@@ -65,6 +65,14 @@ export default function Panel() {
           </a>
         ))}
       </nav>
+
+      <a className="panel__resume" href={href('resume')}>
+        <span aria-hidden="true">📎</span>
+        <span>
+          <strong>Résumé</strong>
+          <span>read it here or download the PDF</span>
+        </span>
+      </a>
 
       <section className="featured" aria-labelledby="featured-title">
         <h2 id="featured-title" className="panel__label display">

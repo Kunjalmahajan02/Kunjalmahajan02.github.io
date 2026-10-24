@@ -107,13 +107,6 @@ export function activityAt(hour) {
   return (SCHEDULE.find(([a, b]) => h >= a && h < b) ?? SCHEDULE[0])[2];
 }
 
-export function nextAfter(hour) {
-  const h = ((hour % 24) + 24) % 24;
-  const i = SCHEDULE.findIndex(([a, b]) => h >= a && h < b);
-  const [start, , act] = SCHEDULE[(i + 1) % SCHEDULE.length];
-  return { act, at: `${String(start).padStart(2, '0')}:00` };
-}
-
 export function istHour(date = new Date()) {
   const utc = date.getUTCHours() + date.getUTCMinutes() / 60 + date.getUTCSeconds() / 3600;
   return (utc + 5.5) % 24;

@@ -10,6 +10,7 @@ import ProjectsApp from './windows/ProjectsApp.jsx';
 import ResearchApp from './windows/ResearchApp.jsx';
 import CreativeApp from './windows/CreativeApp.jsx';
 import ContactApp from './windows/ContactApp.jsx';
+import ResumeApp from './windows/ResumeApp.jsx';
 
 // Addresses from earlier versions of the site keep working.
 const ALIASES = {
@@ -48,6 +49,8 @@ function windowFor([section, sub]) {
       return <CreativeApp />;
     case 'contact':
       return <ContactApp />;
+    case 'resume':
+      return <ResumeApp />;
     default:
       return <NotFound />;
   }

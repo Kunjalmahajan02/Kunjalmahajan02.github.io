@@ -31,7 +31,7 @@ There is no backend, database, API key or paid service. The whole site is static
 index.html                 Page shell, meta tags, social preview
 vite.config.js             base: './' → relative asset paths (works on any Pages URL)
 public/                    Copied as-is into the build
-  art/                     Moodboard illustrations for CREATIVE.EXE
+  art/                     Illustrations of Mini Kunjal for CREATIVE.EXE
   resume/                  Kunjal_Mahajan_Resume.pdf (replace to update)
   favicon.png, apple-touch-icon.png, og-image.png
 src/
@@ -57,7 +57,7 @@ src/
 tools/
   render_house.mjs         Renders a scene to a PNG in Node (any hour / activity)
   make_og.py               Rebuilds the social preview image (uses render_house.mjs)
-  make_art.py              Builds the moodboard crops from the reference board
+  make_creative.py         Builds the CREATIVE.EXE illustrations from Kunjal's pose art
   check-dist.mjs           Post-build checks (relative paths, required assets, no secrets)
 .github/workflows/deploy.yml  Build + deploy to GitHub Pages
 ```
@@ -155,4 +155,4 @@ Almost everything is data in `src/data/`. Edit, run `npm run dev` to check, then
 
 ## Credits
 
-The rooms and Mini Kunjal are drawn in code (`src/scene/`); Mini Kunjal is based on Kunjal's own portrait. The moodboard images in CREATIVE.EXE come from that reference board (`reference/reference-ui.webp`), processed by `tools/make_art.py`.
+The rooms and Mini Kunjal are drawn in code (`src/scene/`); Mini Kunjal is based on Kunjal's own portrait. The illustrations in CREATIVE.EXE are made from Kunjal's own pose art by `tools/make_creative.py`.

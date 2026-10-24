@@ -1,7 +1,7 @@
-// Daydream District — the creative side. Achievements come from Kunjal's
-// résumé. `art` names an illustration in public/art (moodboard stand-ins
-// from the reference board) until real photos are added: to use a photo, put
-// it in public/creative/ and set `photo: 'creative/name.webp'`.
+// CREATIVE.EXE — the creative side. Achievements come from Kunjal's résumé.
+// `art` names an illustration of Mini Kunjal in public/art (made from
+// Kunjal's own pose art by tools/make_creative.py). To use a photo instead,
+// put it in public/creative/ and set `photo: 'creative/name.webp'`.
 
 export const stages = [
   {
@@ -13,28 +13,43 @@ export const stages = [
       'State-Level Classical Dance Artist',
       'Head of the College Dance Crew, Terna Engineering College',
     ],
-    art: { name: 'mood-dance', w: 636, h: 792, alt: 'Illustration of Mini Kunjal mid-dance in a studio.' },
+    art: {
+      name: 'creative-dance',
+      w: 640,
+      h: 480,
+      alt: 'Mini Kunjal dancing — one leg kicked up, arm raised, mid-move.',
+    },
   },
   {
     id: 'art',
     name: 'Sketching & painting',
     line: 'Pencil, paint, and whatever the page wants to become.',
     credits: [],
-    art: { name: 'mood-sketch', w: 432, h: 312, alt: 'A pencil sketch of Mini Kunjal looking over her shoulder.' },
+    art: { name: 'creative-art', w: 640, h: 480, alt: 'Mini Kunjal holding up a paintbrush and a palette of colours.' },
   },
   {
     id: 'fashion',
     name: 'Fashion & styling',
     line: 'Fashion designing and putting looks together — colour, silhouette, detail.',
     credits: [],
-    art: { name: 'mood-back', w: 572, h: 520, alt: 'Illustration of Mini Kunjal from behind in a backless top, against a painted floral wall.' },
+    art: {
+      name: 'creative-fashion',
+      w: 640,
+      h: 480,
+      alt: 'Mini Kunjal in a sparkly pink gown, holding out the skirt.',
+    },
   },
   {
     id: 'modeling',
     name: 'Modeling',
     line: 'On the other side of the camera.',
     credits: ['Miss Fresher 2023, Terna Engineering College'],
-    art: { name: 'mood-portrait', w: 688, h: 378, alt: 'Illustrated portrait of Mini Kunjal in sunglasses, hair blowing in warm light.' },
+    art: {
+      name: 'creative-modeling',
+      w: 640,
+      h: 480,
+      alt: 'Mini Kunjal posing and waving in her starry black cardigan and burgundy trousers.',
+    },
   },
 ];
 

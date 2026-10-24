@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { W, H, SCENES, SCENE_ORDER, roomAt, route, clampToRoom } from '../scene/scenes.js';
 import { drawKunjal, drawSleeping } from '../scene/kunjal.js';
-import { ACTIVITIES, ORDER, activityAt, nextAfter, istHour, fmtHour } from '../scene/routine.js';
+import { ACTIVITIES, ORDER, activityAt, istHour, fmtHour } from '../scene/routine.js';
 import { isReducedMotion } from '../motion.js';
 import { discover } from '../mascot.js';
 
@@ -20,7 +20,7 @@ const SECRET_LINES = {
   sky: 'you peeked out of my window! secret found ✦',
 };
 const POKES = [
-  'hi! i’m kunjal ♡ click any room and i’ll walk there.',
+  'hi! i’m kunjal ♡ welcome home. click any room and i’ll walk there.',
   'psst — the furniture is clickable.',
   'the room buttons take me to dance, rampwalk or art ✦',
   'did you meet Mochi? she’s in the living room.',
@@ -34,7 +34,7 @@ const placeOf = (a) =>
 
 // Mini Kunjal's home and rooms: she follows her daily routine in India time,
 // walks room to room (out the front door to the dance, walk and art rooms),
-// and goes wherever you click.
+// and goes wherever you click. Every visit starts at home.
 export default function Dollhouse({ onOpen }) {
   const canvasRef = useRef(null);
   const bubbleRef = useRef(null);
@@ -42,14 +42,16 @@ export default function Dollhouse({ onOpen }) {
   const [mode, setMode] = useState('live');
   const [previewHour, setPreviewHour] = useState(() => istHour());
   const [override, setOverride] = useState(null); // an activity, 'roam', or null
+  const [welcome, setWelcome] = useState(true); // until the visitor does something, she stays home
   const [bubble, setBubble] = useState({ text: POKES[0], link: null });
   const [hover, setHover] = useState(null);
   const pokeIdx = useRef(0);
 
   const hour = mode === 'live' ? istHour(now) : previewHour;
   const scheduled = activityAt(hour);
-  const act = override ?? scheduled;
-  const next = nextAfter(hour);
+  const atHome = (a) => ACTIVITIES[a].scene === 'home';
+  const act = override ?? (welcome && !atHome(scheduled) ? 'chill' : scheduled);
+  const interact = () => setWelcome(false);
 
   // she starts the visit already at whatever she's doing
   const [sceneId, setSceneId] = useState(() => ACTIVITIES[act === 'roam' ? 'chill' : act].scene);
@@ -108,12 +110,14 @@ export default function Dollhouse({ onOpen }) {
   };
 
   // when the activity changes, go and do it, and say something
-  const firstAct = useRef(true);
+  // (she starts the visit already there, with the welcome line)
+  const lastAct = useRef(act);
   useEffect(() => {
-    if (act === 'roam') return;
+    if (act === 'roam') lastAct.current = 'roam';
+    if (act === 'roam' || act === lastAct.current) return;
+    lastAct.current = act;
     const a = ACTIVITIES[act];
-    if (firstAct.current) firstAct.current = false;
-    else walkTo({ ...a.spot }, a.scene);
+    walkTo({ ...a.spot }, a.scene);
     setBubble({
       text: a.lines[Math.floor(Math.random() * a.lines.length)],
       link: a.link ?? null,
@@ -309,6 +313,7 @@ export default function Dollhouse({ onOpen }) {
 
   const onCanvasClick = (e) => {
     const p = toCanvas(e);
+    interact();
     if (isOverHer(p)) {
       ch.current.wave = 1.8;
       pokeIdx.current = (pokeIdx.current + 1) % POKES.length;
@@ -337,6 +342,7 @@ export default function Dollhouse({ onOpen }) {
   };
 
   const activate = (o) => {
+    interact();
     if (o.secret) {
       // discover() announces the find (and the running count) through 'mascot:say'
       if (o.secret === 'disco') {
@@ -358,23 +364,27 @@ export default function Dollhouse({ onOpen }) {
   };
 
   const goToRoom = (id) => {
-    if (id === 'home') setOverride(ACTIVITIES[scheduled].scene === 'home' ? null : 'chill');
+    interact();
+    if (id === 'home') setOverride(atHome(scheduled) ? null : 'chill');
     else setOverride(ROOM_ACTIVITY[id]);
   };
 
   const pickActivity = (id) => {
+    interact();
     setOverride(id);
     setMode('preview');
     setPreviewHour(hour);
   };
 
   const followIST = () => {
+    interact();
     setOverride(null);
     setMode('live');
     setNow(new Date());
   };
 
   const scrub = (v) => {
+    interact();
     setMode('preview');
     setOverride(null);
     setPreviewHour(Number(v));
@@ -386,9 +396,11 @@ export default function Dollhouse({ onOpen }) {
       ? 'Following your click'
       : override
         ? 'Your pick'
-        : mode === 'live'
-          ? 'Live · following IST'
-          : `Preview · ${fmtHour(hour)} IST`;
+        : welcome && !atHome(scheduled)
+          ? 'Welcome home'
+          : mode === 'live'
+            ? 'Live · following IST'
+            : `Preview · ${fmtHour(hour)} IST`;
 
   return (
     <section className="dollhouse" aria-labelledby="dollhouse-title">
@@ -481,9 +493,6 @@ export default function Dollhouse({ onOpen }) {
               {hover}
             </p>
           )}
-          <p className="dollhouse__next">
-            Next: {ACTIVITIES[next.act].status} at {next.at} IST
-          </p>
         </div>
       </div>
 

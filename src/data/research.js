@@ -1,13 +1,14 @@
-// Research Observatory topics. These are areas of interest and exploration,
-// not published research. To add real work later, push entries into a topic's
+// RESEARCH.TXT topics. These are areas of interest and exploration, not
+// published research. To add real work later, push entries into a topic's
 // `papers` (title, venue/year, href) or `notes` (title, href) arrays — the
 // page renders them automatically and hides the empty state.
 //
-// `x`/`y` place each star on the constellation (0–100 in both directions).
+// `field` groups the list: 'ai' (AI & engineering) or 'space' (space & physics).
 
 export const topics = [
   {
     id: 'vision',
+    field: 'ai',
     star: 'α',
     name: 'Computer vision & image processing',
     short: 'Computer vision',
@@ -26,6 +27,7 @@ export const topics = [
   },
   {
     id: 'deep',
+    field: 'ai',
     star: 'β',
     name: 'Deep learning & neural networks',
     short: 'Deep learning',
@@ -44,6 +46,7 @@ export const topics = [
   },
   {
     id: 'nlp',
+    field: 'ai',
     star: 'γ',
     name: 'Natural language processing & multilingual AI',
     short: 'Multilingual NLP',
@@ -62,6 +65,7 @@ export const topics = [
   },
   {
     id: 'speech',
+    field: 'ai',
     star: 'δ',
     name: 'Speech processing & language translation',
     short: 'Speech & translation',
@@ -79,6 +83,7 @@ export const topics = [
   },
   {
     id: 'data',
+    field: 'ai',
     star: 'ε',
     name: 'Data analytics & visualization',
     short: 'Data & visualization',
@@ -96,6 +101,7 @@ export const topics = [
   },
   {
     id: 'hci',
+    field: 'ai',
     star: 'ζ',
     name: 'Accessible human-computer interaction',
     short: 'Accessible HCI',
@@ -112,6 +118,131 @@ export const topics = [
     papers: [],
     notes: [],
   },
+  {
+    id: 'drake',
+    field: 'space',
+    star: 'η',
+    name: 'The Drake equation',
+    short: 'Drake equation',
+    why: 'Frank Drake’s 1961 equation, N = R* · fp · ne · fl · fi · fc · L, estimates how many civilisations in our galaxy we might be able to detect. I like it because it’s less an answer than a way of organising everything we don’t know yet.',
+    exploring: [
+      'What each factor means: the rate of star formation (R*), the fraction of stars with planets (fp), habitable planets per system (ne), the fractions where life (fl), intelligence (fi) and detectable technology (fc) appear, and how long such signals last (L)',
+      'How exoplanet surveys like Kepler and TESS have pinned down the first few factors, while the biological ones are still guesses that span many orders of magnitude',
+      'Treating it as an uncertainty problem: what comes out when each factor is a probability distribution instead of a single number',
+    ],
+    projects: [],
+    related: ['fermi', 'ftl'],
+    papers: [],
+    notes: [],
+  },
+  {
+    id: 'fermi',
+    field: 'space',
+    star: 'θ',
+    name: 'The Fermi paradox',
+    short: 'Fermi paradox',
+    why: 'The Milky Way is about 13 billion years old and has hundreds of billions of stars — even slow interstellar travel could have crossed it many times over. So, as Enrico Fermi reportedly asked in 1950: where is everybody?',
+    exploring: [
+      'The proposed answers: a “Great Filter” (some step from chemistry to space travel is extremely unlikely), the rare-Earth hypothesis, civilisations that don’t last long — or that we simply haven’t looked enough',
+      'How big the search space really is: radio SETI has covered only a tiny fraction of the frequencies, directions and moments it could have',
+      'Technosignatures beyond radio — laser pulses, waste heat, industrial gases in exoplanet atmospheres',
+    ],
+    projects: [],
+    related: ['drake', 'ftl', 'wormholes'],
+    papers: [],
+    notes: [],
+  },
+  {
+    id: 'wormholes',
+    field: 'space',
+    star: 'ι',
+    name: 'Wormholes',
+    short: 'Wormholes',
+    why: 'A wormhole is a solution of Einstein’s field equations that connects two distant regions of spacetime — a shortcut through spacetime rather than across it. Einstein and Rosen described the first one in 1935.',
+    exploring: [
+      'Einstein–Rosen bridges, and why the simplest ones pinch shut too fast for anything — even light — to get through',
+      'Traversable wormholes (Morris and Thorne, 1988), which would need “exotic” matter with negative energy density to stay open',
+      'Whether quantum effects like the Casimir effect could ever supply that negative energy, and why time-travel paradoxes make physicists suspicious of the whole idea',
+    ],
+    projects: [],
+    related: ['relativity', 'blackholes', 'ftl'],
+    papers: [],
+    notes: [],
+  },
+  {
+    id: 'ftl',
+    field: 'space',
+    star: 'κ',
+    name: 'Coordinates & equations for crossing the speed of light',
+    short: 'Faster than light',
+    why: 'In special relativity nothing with mass can reach the speed of light: the energy it takes, E = γmc² with γ = 1/√(1 − v²/c²), grows without limit as v approaches c. I’m curious about the loopholes physicists have actually written down — and why each one is so hard.',
+    exploring: [
+      'Lorentz transformations between moving coordinate frames — x′ = γ(x − vt), t′ = γ(t − vx/c²) — and the time dilation and length contraction that come with them',
+      'The Alcubierre metric (1994): a “warp bubble” that contracts space ahead of a ship and expands it behind, so the ship never locally beats light — but it needs negative energy',
+      'Why faster-than-light signals would break causality: in some reference frames the effect would arrive before the cause',
+      'Tachyons — hypothetical particles that always travel faster than light — and why none have ever been detected',
+    ],
+    projects: [],
+    related: ['relativity', 'wormholes', 'fermi'],
+    papers: [],
+    notes: [],
+  },
+  {
+    id: 'blackholes',
+    field: 'space',
+    star: 'λ',
+    name: 'Black holes',
+    short: 'Black holes',
+    why: 'Regions where gravity is so strong that, past the event horizon, not even light can escape. For a non-rotating black hole the horizon sits at the Schwarzschild radius, r = 2GM/c² — about 3 km for a black hole with the Sun’s mass.',
+    exploring: [
+      'Stellar-mass black holes left by collapsing stars, and supermassive ones like Sagittarius A* — about 4 million times the Sun’s mass — at the centre of the Milky Way',
+      'Seeing them: the Event Horizon Telescope images of M87* (2019) and Sagittarius A* (2022), and LIGO hearing two black holes merge, first in 2015',
+      'Hawking radiation and the information paradox: do black holes slowly evaporate, and if so, what happens to the information that fell in?',
+    ],
+    projects: [],
+    related: ['relativity', 'wormholes', 'darkmatter'],
+    papers: [],
+    notes: [],
+  },
+  {
+    id: 'relativity',
+    field: 'space',
+    star: 'μ',
+    name: 'Einstein’s general theory of relativity',
+    short: 'General relativity',
+    why: 'Einstein’s 1915 theory says gravity isn’t a force pulling across space — mass and energy curve spacetime, and things move along the straightest paths through that curve. The field equations, G_μν + Λg_μν = (8πG/c⁴) T_μν, link the shape of spacetime to what’s in it.',
+    exploring: [
+      'The classic tests: the extra precession of Mercury’s orbit, starlight bending around the Sun (the 1919 eclipse) and gravitational redshift',
+      'GPS, whose satellite clocks run about 38 microseconds a day fast compared with clocks on the ground and have to be corrected for relativity',
+      'Gravitational waves — ripples in spacetime predicted in 1916 and finally detected in 2015',
+    ],
+    projects: [],
+    related: ['blackholes', 'wormholes', 'ftl', 'darkmatter'],
+    papers: [],
+    notes: [],
+  },
+  {
+    id: 'darkmatter',
+    field: 'space',
+    star: 'ν',
+    name: 'Dark matter',
+    short: 'Dark matter',
+    why: 'Galaxies spin too fast for the matter we can see to hold them together, so something unseen must be adding gravity. That “dark matter” seems to make up about 85% of all the matter in the universe — and we still don’t know what it is.',
+    exploring: [
+      'The evidence: flat galaxy rotation curves (Vera Rubin’s work in the 1970s), gravitational lensing in collisions like the Bullet Cluster, and patterns in the cosmic microwave background',
+      'The candidates — WIMPs, axions, sterile neutrinos — and why underground detectors haven’t caught one yet',
+      'Alternatives such as modified gravity (MOND), and how dark matter differs from dark energy, which drives the universe’s accelerating expansion',
+    ],
+    projects: [],
+    related: ['relativity', 'blackholes'],
+    papers: [],
+    notes: [],
+  },
 ];
 
 export const topicById = Object.fromEntries(topics.map((t) => [t.id, t]));
+
+export const fields = [
+  { id: 'ai', name: 'AI & engineering' },
+  { id: 'space', name: 'Space & physics' },
+];

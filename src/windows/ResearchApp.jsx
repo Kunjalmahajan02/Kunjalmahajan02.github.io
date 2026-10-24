@@ -1,4 +1,4 @@
-import { topics, topicById } from '../data/research.js';
+import { topics, topicById, fields } from '../data/research.js';
 import { projectById } from '../data/projects.js';
 import { href, useDocumentTitle } from '../router.js';
 import AppWindow from '../components/AppWindow.jsx';
@@ -61,21 +61,31 @@ export default function ResearchApp({ topicId }) {
   return (
     <AppWindow file="RESEARCH.TXT" title="What I’m reading & exploring" tone="lilac">
       <p className="window__lead">
-        Six areas I keep coming back to. They’re interests and working notes — not published research.
+        The areas I keep coming back to — in AI and engineering, and out in the universe. They’re interests and working
+        notes, not published research.
       </p>
-      <ul className="notebook">
-        {topics.map((t) => (
-          <li key={t.id}>
-            <a href={href(`research/${t.id}`)}>
-              <span className="notebook__star" aria-hidden="true">
-                {t.star}
-              </span>
-              <span className="notebook__name">{t.name}</span>
-              <span className="notebook__why">{t.why}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      {fields.map((f) => (
+        <section key={f.id} className="notebook-group" aria-labelledby={`field-${f.id}`}>
+          <h2 id={`field-${f.id}`} className="notebook-group__title display">
+            {f.name}
+          </h2>
+          <ul className="notebook">
+            {topics
+              .filter((t) => t.field === f.id)
+              .map((t) => (
+                <li key={t.id}>
+                  <a href={href(`research/${t.id}`)}>
+                    <span className="notebook__star" aria-hidden="true">
+                      {t.star}
+                    </span>
+                    <span className="notebook__name">{t.name}</span>
+                    <span className="notebook__why">{t.why}</span>
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </section>
+      ))}
     </AppWindow>
   );
 }

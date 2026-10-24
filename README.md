@@ -2,27 +2,25 @@
 
 The personal portfolio of **Kunjal Mahajan**, AI & Data Science engineer and creative technologist.
 
-**The Dreamscape** — an interactive, illustrated universe that happens to be a portfolio. Mini Kunjal, a character cut from Kunjal's own reference art, is a guide on every page: click or tap anywhere and she flies there, she changes pose and talks in each world, reacts when clicked, and can be tucked away.
+The home page is **Mini Kunjal's home**: an illustrated isometric floor map (bedroom, living room, coding corner and entrance) surrounded by a fairy-lit garden, drawn entirely in code. Three more rooms have their own scenes and buttons: the **dance room** (mirror wall, barre, disco ball and a karaoke corner), the **walk room** (a lit runway for rampwalk practice) and the **art room** (easel, florals, paint desk).
 
-| Place | What's there |
-|---|---|
-| **The opening** (`#/`) | A layered night scene — painted nebula, stars, vector floating architecture — with the bowed Kunjal.exe planet and the four worlds around it. Mini Kunjal sits on a crescent moon. A short version for recruiters sits below. |
-| **01 · Inventor's Planet** (`#/inventor`) | Projects as blueprints: BlinkBridge AI (founder, ongoing), the Speech-to-Text & Translation Engine, ChainTrack, TB detection, the Inventory & Billing System and Hangman. Each opens a case study: problem, why it matters, approach, the system as a schematic, technologies, and what's next. BlinkBridge has a Morse "blink" toy; ChainTrack has an in-browser model of its contract rules. |
-| **02 · Observatory Beyond** (`#/observatory`) | A telescope over a constellation of research interests, with an observation log for each. |
-| **03 · Thought Garden** (`#/garden`) | Projects, research themes and tools as blooms, crystals and seeds joined by vines — only where the connection is real. |
-| **04 · Daydream District** (`#/daydream`) | Dance, art, fashion and modeling on floating stages, with real credits from the résumé. |
-| **Mission Control** (`#/about`) | Summary, education, skills, certifications, leadership, contact links, a terminal and the résumé. |
+Mini Kunjal is a chibi version of Kunjal drawn from her portrait: long chestnut waves, burgundy sunglasses worn low, an off-shoulder black cardigan with pink stars and moons. She follows her daily routine in India time, and walks out of the front door when it's time for the dance, walk or art room. She sleeps, codes, reads, takes boba breaks with Mochi the cat, dances, sings karaoke, practises her rampwalk and paints. Visitors can:
 
-The **Résumé** button in the top bar always opens `public/resume/Kunjal_Mahajan_Resume.pdf`. There are four hidden secrets to find.
+- **click any room** and she walks there, through the doorways;
+- use the **room buttons** (Home, Dance room, Walk room, Art room) to send her somewhere;
+- **click furniture**: the laptop (projects), the bookshelf (research), the pinboard (opens the résumé PDF), the mailbox (contact), the mirror, runway and easel (creative);
+- **pick an activity** from the bar under the scene, or **scrub the day** to watch her routine and the sky change from morning to night;
+- find **four hidden secrets**.
+
+Four apps open as retro windows over the apartment: **PROJECTS.EXE** (`#/projects`, with a case study per project at `#/projects/<id>`), **RESEARCH.TXT** (`#/research`), **CREATIVE.EXE** (`#/creative`) and **CONTACT.ME** (`#/contact`). Older addresses (`#/inventor/…`, `#/observatory/…`, `#/about`, …) redirect to their new homes.
 
 ## Tech stack
 
 - **React 18** + **Vite 5**, written in plain JavaScript (JSX)
-- Hand-written CSS with design tokens (`src/styles/tokens.css`) — no UI framework, no animation library
-- Scenery is hand-drawn **SVG** (sharp at any size); pointer parallax via CSS custom properties
-- Character poses and illustrated planets are cut from `reference/reference-ui.webp`, upscaled 4× with Real-ESRGAN and cut out with u2net + GrabCut (`tools/make_dreamscape.py`); skies are procedurally painted by the same script. Images are never shown larger than their real pixels.
-- Self-hosted fonts via Fontsource: Playfair Display, Caveat, Manrope, JetBrains Mono
-- **Hash routing** (`#/inventor/blinkbridge`), so every route works on GitHub Pages without server rewrites
+- The rooms and Mini Kunjal are drawn on a `<canvas>` with smooth vector shapes (`src/scene/`), rendered at screen resolution. There are no image assets for the scene.
+- Hand-written CSS (`src/styles/site.css`). No UI framework, no animation library.
+- Self-hosted fonts via Fontsource: Fredoka, Caveat, Manrope, JetBrains Mono
+- **Hash routing** (`#/projects/blinkbridge`), so every route works on GitHub Pages without server rewrites
 - **GitHub Actions** builds the site and deploys it to **GitHub Pages**
 
 There is no backend, database, API key or paid service. The whole site is static files.
@@ -33,31 +31,33 @@ There is no backend, database, API key or paid service. The whole site is static
 index.html                 Page shell, meta tags, social preview
 vite.config.js             base: './' → relative asset paths (works on any Pages URL)
 public/                    Copied as-is into the build
-  dream/                   Mini Kunjal's poses, the world planets, painted skies
-  art/                     Moodboard illustrations for Daydream District
+  art/                     Moodboard illustrations for CREATIVE.EXE
   resume/                  Kunjal_Mahajan_Resume.pdf (replace to update)
-  mascot/avatar.webp       Round avatar for the header
   favicon.png, apple-touch-icon.png, og-image.png
-reference/reference-ui.webp  Kunjal's reference board — the source of every character illustration
 src/
   main.jsx, App.jsx        Entry point and route table
   router.js                Tiny hash router (+ document titles)
-  motion.js                Reduced-motion preference (OS setting + footer toggle)
-  mascot.js                say()/discover() — how pages talk to Mini Kunjal; secrets
-  data/                    ← All content lives here (edit these to update the site)
+  motion.js                Reduced-motion preference (OS setting + top-bar toggle)
+  mascot.js                say()/discover(): Mini Kunjal's speech bubble and the secrets
+  scene/
+    kit.js                 The isometric drawing kit (projection, furniture, plants, lamps, windows, garden, night lights)
+    home.js                Home: bedroom, living room, coding corner, entrance
+    rooms.js               The dance room, walk room and art room
+    scenes.js              The scene list + walking routes between rooms
+    kunjal.js              Mini Kunjal: poses and drawing
+    routine.js             Her day in IST: activities, which scene and spot, lines, schedule
+  data/                    ← All portfolio content (edit these to update the site)
     profile.js             Summary, education, skills, certifications, links (from the résumé)
-    worlds.js              The four worlds, their planets and Mini Kunjal's lines
     projects.js            Case studies (with evidence notes)
-    research.js            Observatory topics (add papers/notes here)
-    graph.js               Thought Garden nodes and edges
-    creative.js            Daydream stages, credits (add photos here)
-  components/              Mascot, DreamSky, Scenery, Header, WorldShell, Schematic, Terminal, …
-  pages/                   Home, Inventor, ProjectCase, ObservatoryBeyond, ThoughtGarden, Daydream, MissionControl
-  styles/                  tokens, base, dream
+    research.js            Research topics (add papers/notes here)
+    creative.js            Dance, art, fashion, modeling credits (add photos here)
+  components/              Dollhouse (the apartment + controls), TopBar, Panel, AppWindow, Pipeline, MorsePlay, CustodySim, …
+  windows/                 ProjectsApp, ResearchApp, CreativeApp, ContactApp
+  styles/                  site.css, widgets.css
 tools/
-  make_dreamscape.py       Cuts out poses and planets, paints the skies
+  render_house.mjs         Renders a scene to a PNG in Node (any hour / activity)
+  make_og.py               Rebuilds the social preview image (uses render_house.mjs)
   make_art.py              Builds the moodboard crops from the reference board
-  make_og.py               Rebuilds the social preview image
   check-dist.mjs           Post-build checks (relative paths, required assets, no secrets)
 .github/workflows/deploy.yml  Build + deploy to GitHub Pages
 ```
@@ -66,7 +66,7 @@ tools/
 
 - **Node.js 20 or newer** (CI uses Node 22) and npm
 - **Git**
-- Optional: **Python 3** with Pillow, OpenCV, NumPy, onnxruntime and `realesrgan-ncnn-py` — only to regenerate the artwork (`python tools/make_dreamscape.py`; upscaling runs on the GPU via Vulkan, and the open-source u2net model is downloaded once to `~/.u2net/`).
+- Optional: **Python 3** with Pillow, only to rebuild the link-preview image (`python tools/make_og.py`).
 
 ## Run it locally
 
@@ -92,7 +92,7 @@ npm run preview    # serves dist/ locally to try the production build
 - **User site:** repository named exactly `Kunjalmahajan02.github.io` → `https://kunjalmahajan02.github.io/`
 - **Project site:** any other repository name, e.g. `kunjal-universe` → `https://kunjalmahajan02.github.io/kunjal-universe/`
 
-Because routes live after the `#`, refreshing or sharing a deep link such as `…/#/inventor/chaintrack` always works. GitHub Pages only ever serves `index.html`.
+Because routes live after the `#`, refreshing or sharing a deep link such as `…/#/projects/chaintrack` always works. GitHub Pages only ever serves `index.html`.
 
 The one place that benefits from an absolute URL is the social preview. Once you know the final address, change the two `og-image.png` lines in `index.html` to the full URL (for example `https://kunjalmahajan02.github.io/og-image.png`) and add `<meta property="og:url" content="…">`. Link previews on LinkedIn, WhatsApp and similar sites need absolute image URLs.
 
@@ -134,9 +134,9 @@ Almost everything is data in `src/data/`. Edit, run `npm run dev` to check, then
 
 - **Résumé:** replace `public/resume/Kunjal_Mahajan_Resume.pdf` with the new PDF (same name), and update `src/data/profile.js` if details changed.
 - **Contact links:** edit `links` in `src/data/profile.js`. Empty (`null`) links stay hidden.
-- **A new project:** add an object to `projects.js` and add it to `graph.js` with its real connections.
+- **A new project:** add an object to `projects.js`. To feature it on the home panel, add its id to `FEATURED` in `src/components/Panel.jsx`.
 - **A research paper or write-up:** push `{ title, venue, href }` into a topic's `papers` (or `notes`) in `research.js`. The empty state disappears on its own.
-- **Mini Kunjal's lines:** each world's `enter` and `hint` lines are in `src/data/worlds.js`; her click reactions are in `src/components/Mascot.jsx`.
+- **Mini Kunjal's routine and lines:** the schedule and what she says during each activity are in `src/scene/routine.js`; her click reactions and secret lines are at the top of `src/components/Dollhouse.jsx`.
 - **Creative photos:** put optimised images (about 1200px wide, `.webp`) in `public/creative/` and set `photo: 'creative/name.webp'` on that stage in `creative.js`. Use no leading slash.
 - **Speech engine:** when its repository is public, add the link to `links` and change `evidence.level` to `'verified'` in `projects.js` after you check the details against the code.
 
@@ -144,15 +144,15 @@ Almost everything is data in `src/data/`. Edit, run `npm run dev` to check, then
 
 - BlinkBridge AI and ChainTrack case studies were checked against their public repositories ([Blink-to-Morse](https://github.com/Kunjalmahajan02/Blink-to-Morse), [ChainTrack](https://github.com/Kunjalmahajan02/ChainTrack)).
 - The Speech-to-Text & Translation Engine, TB detection, Inventory & Billing and Hangman projects have no public code yet; they are described from the résumé, labelled **"Not yet verified against code"**, and make no accuracy or production claims.
-- No metrics, awards, papers or credits are invented. Starter Archive entries cite their source README.
+- No metrics, awards, papers or credits are invented. Mini Kunjal's routine is a playful illustration, not a real schedule.
 
 ## Accessibility and motion
 
-- Every planet, star and graph node is a real link or button, reachable with Tab and activated with Enter or Space, with a visible focus ring.
-- Planets have text names, and node types use different shapes as well as colours, so colour is never the only cue.
-- Focus moves to the new page heading after navigation. A skip link is provided.
-- Motion is slow and sparse. It switches off when the OS asks for reduced motion, or with the **Reduce motion** toggle in the footer.
+- Every clickable thing in the apartment is a real button (Tab to it, Enter or Space to use it), with a visible focus ring and a text label. The activity bar and the time slider work from the keyboard too.
+- The canvas has a text description of where Mini Kunjal is and what she's doing; her speech bubble is announced politely to screen readers.
+- App windows are dialogs: focus moves to the window title, Escape closes them, and the page behind is inert. A skip link is provided.
+- When the OS asks for reduced motion, or with the **Motion** toggle in the top bar, she stops walking and animating (she appears at her spot) and CSS animations switch off.
 
 ## Credits
 
-Every illustration — Mini Kunjal's room, the universe, the robot, the cat, the chibi stickers, desktop icons and moodboard images — comes from the reference board Kunjal supplied (`reference/reference-ui.webp`), processed by `tools/make_art.py`.
+The rooms and Mini Kunjal are drawn in code (`src/scene/`); Mini Kunjal is based on Kunjal's own portrait. The moodboard images in CREATIVE.EXE come from that reference board (`reference/reference-ui.webp`), processed by `tools/make_art.py`.

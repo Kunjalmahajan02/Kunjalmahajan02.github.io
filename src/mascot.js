@@ -1,11 +1,11 @@
-// A tiny event channel between the pages and Mini Kunjal, plus the hidden
+// A tiny event channel to Mini Kunjal's speech bubble, plus the hidden
 // discoveries (secrets) she keeps count of.
 //
 //   say('line', 'pose')      — she says something (pose optional)
 //   discover('moon', 'line') — records a secret once and celebrates it
 
 export const SECRET_TOTAL = 4;
-const KEY = 'kx-secrets';
+const KEY = 'kx-secrets-home'; // the apartment's secrets: cat, disco, bunny, sky
 
 export function say(line, pose) {
   window.dispatchEvent(new CustomEvent('mascot:say', { detail: { line, pose } }));
@@ -22,7 +22,7 @@ export function secrets() {
 export function discover(id, line) {
   const found = secrets();
   if (found.includes(id)) {
-    say('you already found this one ♡', 'wow');
+    say('you already found this one ♡ — keep looking!', 'wow');
     return false;
   }
   found.push(id);

@@ -1,28 +1,41 @@
-"""Builds public/og-image.png (1200x630), the link-preview image, from the
-Dreamscape art in public/dream (built by tools/make_dreamscape.py).
+"""Builds public/og-image.png (1200x630), the link-preview image: Mini
+Kunjal's apartment (rendered by tools/render_house.mjs) on pink gingham,
+with her name.
 
 Run from the repo root:  python tools/make_og.py
-Fonts: Georgia / Segoe UI on Windows, DejaVu elsewhere."""
+Fonts: Segoe UI / Georgia on Windows, DejaVu elsewhere."""
 import glob
+import os
+import subprocess
+import tempfile
 
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1200, 630
-img = Image.open("public/dream/sky-home.webp").convert("RGBA").resize((W, H), Image.LANCZOS)
+PLUM = (154, 95, 134)
+INK = (74, 39, 66)
+INK_SOFT = (111, 71, 102)
+PINK = (255, 126, 182)
+HOT = (226, 70, 138)
+BLUSH = (255, 191, 219)
 
+# 1. the apartment, drawn by the site's own scene code (late morning, coding)
+tmp = os.path.join(tempfile.gettempdir(), "kx-house.png")
+subprocess.run(["node", "tools/render_house.mjs", tmp, "11", "code", "1.25"], check=True)
+house = Image.open(tmp).convert("RGB")  # 800 x 500
 
-def paste(path, height, xy):
-    im = Image.open(path).convert("RGBA")
-    im = im.resize((round(im.width * height / im.height), height), Image.LANCZOS)
-    img.alpha_composite(im, xy)
-    return im.size
+# 2. pink gingham background
+img = Image.new("RGB", (W, H), (255, 243, 248))
+d = ImageDraw.Draw(img, "RGBA")
+for i in range(0, max(W, H), 28):
+    d.rectangle([i, 0, i + 13, H], fill=(255, 191, 219, 70))
+    d.rectangle([0, i, W, i + 13], fill=(255, 191, 219, 70))
 
-
-# the Kunjal.exe planet and Mini Kunjal beside it
-paste("public/dream/planet-core-900.webp", 330, (690, 60))
-paste("public/dream/planet-inventor-272.webp", 110, (1050, 380))
-paste("public/dream/planet-daydream-310.webp", 96, (600, 420))
-paste("public/dream/pose-hello-402.webp", 300, (835, 330))
+# 3. the house in a cream frame with a hard plum shadow
+hx, hy = W - house.width - 22, (H - house.height) // 2
+d.rounded_rectangle([hx - 6 + 8, hy - 6 + 8, hx + house.width + 6 + 8, hy + house.height + 6 + 8], 14, fill=PLUM)
+d.rounded_rectangle([hx - 6, hy - 6, hx + house.width + 6, hy + house.height + 6], 14, fill=(255, 250, 244), outline=PLUM, width=3)
+img.paste(house, (hx, hy))
 
 
 def font(patterns, size):
@@ -35,21 +48,30 @@ def font(patterns, size):
     return ImageFont.load_default()
 
 
-serif_i = font(["C:/Windows/Fonts/georgiaz.ttf", "/usr/share/fonts/**/DejaVuSerif-BoldItalic.ttf"], 96)
-body = font(["C:/Windows/Fonts/segoeuib.ttf", "/usr/share/fonts/**/DejaVuSans-Bold.ttf"], 22)
-hand = font(["C:/Windows/Fonts/segoeprb.ttf", "C:/Windows/Fonts/georgiai.ttf", "/usr/share/fonts/**/DejaVuSerif-Italic.ttf"], 30)
-small = font(["C:/Windows/Fonts/segoeui.ttf", "/usr/share/fonts/**/DejaVuSans.ttf"], 20)
+big = font(["C:/Windows/Fonts/segoeuib.ttf", "/usr/share/fonts/**/DejaVuSans-Bold.ttf"], 64)
+mid = font(["C:/Windows/Fonts/segoeuib.ttf", "/usr/share/fonts/**/DejaVuSans-Bold.ttf"], 21)
+hand = font(["C:/Windows/Fonts/segoeprb.ttf", "C:/Windows/Fonts/georgiai.ttf", "/usr/share/fonts/**/DejaVuSerif-Italic.ttf"], 23)
+small = font(["C:/Windows/Fonts/segoeui.ttf", "/usr/share/fonts/**/DejaVuSans.ttf"], 17)
 
-glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-ImageDraw.Draw(glow).text((60, 180), "Kunjal.exe", font=serif_i, fill=(243, 196, 220, 255))
-glow = glow.filter(ImageFilter.GaussianBlur(16))
-img.alpha_composite(glow)
-d = ImageDraw.Draw(img)
-d.text((64, 140), "AN INTERACTIVE DREAMSCAPE", font=small, fill=(221, 167, 198))
-d.text((60, 180), "Kunjal", font=serif_i, fill=(255, 247, 251))
-d.text((60 + d.textlength("Kunjal", font=serif_i), 180), ".exe", font=serif_i, fill=(221, 167, 198))
-d.text((64, 300), "H E R   L I T T L E   U N I V E R S E", font=body, fill=(185, 174, 216))
-d.text((64, 350), "part engineer, part artist, entirely too curious.", font=hand, fill=(243, 196, 220))
-d.text((64, 540), "Kunjal Mahajan · AI & Data Science Engineer", font=small, fill=(215, 211, 223))
-img.convert("RGB").save("public/og-image.png", optimize=True)
+# 4. text on a cream card on the left
+cx, cy, cw, ch = 30, 120, 340, 390
+d.rounded_rectangle([cx + 6, cy + 6, cx + cw + 6, cy + ch + 6], 14, fill=BLUSH)
+d.rounded_rectangle([cx, cy, cx + cw, cy + ch], 14, fill=(255, 250, 244), outline=PLUM, width=3)
+d.text((cx + 24, cy + 26), "hi, i'm", font=hand, fill=HOT)
+d.text((cx + 27, cy + 69), "Kunjal", font=big, fill=BLUSH)
+d.text((cx + 24, cy + 66), "Kunjal", font=big, fill=INK)
+d.text((cx + 27, cy + 137), "Mahajan", font=big, fill=BLUSH)
+d.text((cx + 24, cy + 134), "Mahajan", font=big, fill=INK)
+d.text((cx + 24, cy + 222), "AI & Data Science Engineer", font=mid, fill=INK)
+d.text((cx + 24, cy + 252), "Computer Vision · Deep Learning · GenAI", font=small, fill=INK_SOFT)
+d.text((cx + 24, cy + 300), "part engineer, part artist,", font=hand, fill=HOT)
+d.text((cx + 24, cy + 334), "entirely too curious.", font=hand, fill=HOT)
+
+# 5. the menu-bar label
+d.rounded_rectangle([30, 40, 340, 84], 22, fill=(255, 250, 244), outline=PLUM, width=3)
+d.rounded_rectangle([40, 49, 66, 75], 7, fill=PINK, outline=PLUM, width=2)
+d.text((46, 47), "♡", font=mid, fill=(255, 255, 255))
+d.text((78, 51), "KUNJAL.EXE · a little universe", font=small, fill=INK)
+
+img.save("public/og-image.png", optimize=True)
 print("og-image.png written")

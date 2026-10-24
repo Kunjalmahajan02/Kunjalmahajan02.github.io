@@ -1,0 +1,331 @@
+/* Interactive widgets inside case studies: Morse toy, ChainTrack model, test table */
+.table-wrap {
+  overflow-x: auto;
+  margin-top: 12px;
+  border: 1px solid rgba(161, 65, 111, 0.25);
+  border-radius: 6px;
+}
+
+.tests {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+
+.tests th,
+.tests td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(161, 65, 111, 0.15);
+  vertical-align: top;
+}
+
+.tests th {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: rgba(221, 167, 198, 0.2);
+}
+
+.tests td:first-child {
+  font-family: var(--font-mono);
+  color: var(--rose-ink);
+}
+
+/* Morse toy & ChainTrack model (on paper) */
+.morse__label {
+  display: block;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.morse__row {
+  display: flex;
+  gap: 8px;
+}
+
+.morse__row input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(161, 65, 111, 0.35);
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.morse .btn--small,
+.sim .btn--small {
+  background: var(--violet);
+  color: var(--ivory);
+  border: 0;
+}
+
+.morse__screen {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 22px 16px;
+  border-radius: 14px;
+  background: #1a1020;
+  color: #f4eaf6;
+}
+
+.morse__eye {
+  position: relative;
+  width: 120px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff6fb;
+  overflow: hidden;
+  transition: height 90ms ease;
+}
+
+.morse__eye span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 40% 35%, #8a6aa8, #2a1a3a 60%);
+}
+
+.morse__eye.is-closed {
+  height: 6px;
+  margin: 25px 0;
+}
+
+.morse__status {
+  margin: 0;
+  color: var(--mint);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.morse__code {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 18px;
+  margin: 0;
+  font-family: var(--font-mono);
+  letter-spacing: 0.15em;
+}
+
+.morse__word {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.morse__letter {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.morse__letter .is-on {
+  color: var(--mint);
+  text-shadow: 0 0 10px var(--mint);
+}
+
+.morse__empty {
+  letter-spacing: 0;
+  color: #c0a6c8;
+}
+
+.morse__note {
+  margin: 10px 0 0;
+  font-size: 0.84rem;
+}
+
+.sim {
+  display: grid;
+  gap: 14px;
+  color: var(--ink);
+}
+
+.sim__note {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.sim__note .mono {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: #8a5100;
+  margin-right: 6px;
+}
+
+.sim__actors {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sim__actors legend {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+  padding: 0;
+}
+
+.sim__actors button {
+  display: grid;
+  gap: 1px;
+  min-height: 48px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(161, 65, 111, 0.3);
+  background: #fff;
+  text-align: left;
+  color: var(--ink);
+}
+
+.sim__actors button[aria-pressed='true'] {
+  border-color: var(--rose-ink);
+  background: #ffe9f4;
+}
+
+.sim__acct {
+  font-weight: 800;
+  font-size: 0.86rem;
+}
+
+.sim__role {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--ink-soft);
+}
+
+.sim__actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.sim__action {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(161, 65, 111, 0.22);
+  background: #fff;
+}
+
+.sim__action > .mono {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #4b3c86;
+}
+
+.sim__fields {
+  display: flex;
+  gap: 8px;
+}
+
+.sim__fields label {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+}
+
+.sim select {
+  min-height: 40px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(161, 65, 111, 0.3);
+  background: #fff;
+  color: var(--ink);
+}
+
+.sim__out {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 14px;
+}
+
+.sim__out-head {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.sim__out-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.sim__out-row .link-button {
+  color: var(--rose-ink);
+}
+
+.sim__ledger,
+.sim__log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+
+.sim__ledger li {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.sim__chain {
+  display: block;
+  color: var(--rose-ink);
+}
+
+.sim__log li {
+  padding-left: 8px;
+  border-left: 3px solid #2e9a6b;
+}
+
+.sim__log li.bad {
+  border-left-color: #d0506c;
+}
+
+.sim__log li .mono {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  margin-right: 4px;
+  color: #1f6f4c;
+}
+
+.sim__log li.bad .mono {
+  color: #a02a46;
+}
+
+.empty-note {
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+@media (max-width: 860px) {
+  .sim__actions,
+  .sim__out {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

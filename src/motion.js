@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 // Motion preference: follows the OS `prefers-reduced-motion` setting unless the
-// visitor flips the footer toggle. Exposed as <html data-motion="full|reduced">
+// visitor flips the toggle in the top bar. Exposed as <html data-motion="full|reduced">
 // so CSS can switch every animation off in one place.
 
 const KEY = 'kunjal-motion';

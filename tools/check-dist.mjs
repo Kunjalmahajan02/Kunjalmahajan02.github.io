@@ -30,13 +30,11 @@ for (const f of [
   'favicon.png',
   'apple-touch-icon.png',
   'og-image.png',
-  'mascot/avatar.webp',
   'resume/Kunjal_Mahajan_Resume.pdf',
-  'dream/planet-core-900.webp',
-  'dream/pose-hello-402.webp',
-  'dream/pose-dance-412.webp',
-  'dream/sky-home.webp',
   'art/mood-dance-636.webp',
+  'art/mood-sketch-432.webp',
+  'art/mood-back-572.webp',
+  'art/mood-portrait-688.webp',
 ]) {
   if (!existsSync(join(dist, f))) fail(`missing asset: ${f}`);
 }

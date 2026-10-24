@@ -1,106 +1,90 @@
-import { useCallback, useEffect, useRef } from 'react';
-import { useRoute } from './router.js';
-import { say } from './mascot.js';
-import { worldById, mission } from './data/worlds.js';
-import DreamSky from './components/DreamSky.jsx';
-import Header from './components/Header.jsx';
-import Footer from './components/Footer.jsx';
-import Mascot from './components/Mascot.jsx';
-import Home from './pages/Home.jsx';
-import Inventor from './pages/Inventor.jsx';
-import ProjectCase from './pages/ProjectCase.jsx';
-import ObservatoryBeyond from './pages/ObservatoryBeyond.jsx';
-import ThoughtGarden from './pages/ThoughtGarden.jsx';
-import Daydream from './pages/Daydream.jsx';
-import MissionControl from './pages/MissionControl.jsx';
-import NotFound from './pages/NotFound.jsx';
+import { useEffect, useRef } from 'react';
+import { go, href, useDocumentTitle, useRoute } from './router.js';
 import { projectById } from './data/projects.js';
+import { topicById } from './data/research.js';
+import TopBar from './components/TopBar.jsx';
+import Panel from './components/Panel.jsx';
+import Dollhouse from './components/Dollhouse.jsx';
+import AppWindow from './components/AppWindow.jsx';
+import ProjectsApp from './windows/ProjectsApp.jsx';
+import ResearchApp from './windows/ResearchApp.jsx';
+import CreativeApp from './windows/CreativeApp.jsx';
+import ContactApp from './windows/ContactApp.jsx';
 
 // Addresses from earlier versions of the site keep working.
 const ALIASES = {
-  universe: [''],
-  lab: ['inventor'],
-  projects: ['inventor'],
-  research: ['observatory'],
-  system: ['garden'],
-  archive: ['inventor'],
-  creative: ['daydream'],
-  contact: ['about'],
+  universe: '',
+  lab: 'projects',
+  inventor: 'projects',
+  archive: 'projects',
+  observatory: 'research',
+  garden: 'research',
+  system: 'research',
+  daydream: 'creative',
+  about: 'contact',
 };
 
 function resolve([section, sub, third]) {
-  if (section === 'research' && sub === 'map') return ['garden', third];
+  if (section === 'research' && sub === 'map') return ['research', third];
   if (section in ALIASES) {
-    const [to] = ALIASES[section];
-    return to === '' ? [] : [to, ['lab', 'projects', 'research', 'system'].includes(section) ? sub : undefined];
+    const to = ALIASES[section];
+    if (!to) return [];
+    return [to, ['lab', 'inventor', 'archive', 'observatory'].includes(section) ? sub : undefined];
   }
   return [section, sub];
 }
 
-function pageFor([section, sub]) {
+function windowFor([section, sub]) {
   switch (section) {
     case undefined:
-      return <Home />;
-    case 'inventor':
-      if (!sub) return <Inventor />;
-      return projectById[sub] ? <ProjectCase project={projectById[sub]} /> : <NotFound />;
-    case 'observatory':
-      return <ObservatoryBeyond topicId={sub} />;
-    case 'garden':
-      return <ThoughtGarden nodeId={sub} />;
-    case 'daydream':
-      return <Daydream />;
-    case 'about':
-      return <MissionControl />;
+      return null;
+    case 'projects':
+      if (sub && !projectById[sub]) return <NotFound />;
+      return <ProjectsApp project={projectById[sub]} />;
+    case 'research':
+      if (sub && !topicById[sub]) return <NotFound />;
+      return <ResearchApp topicId={sub} />;
+    case 'creative':
+      return <CreativeApp />;
+    case 'contact':
+      return <ContactApp />;
     default:
       return <NotFound />;
   }
 }
 
-const GREETING = 'hey, you found my little universe ♡ click anywhere and i’ll follow you.';
+function NotFound() {
+  useDocumentTitle('Not found');
+  return (
+    <AppWindow file="ERROR.TXT" title="This room doesn’t exist (yet)" tone="lilac">
+      <p className="window__lead">The link may be old or mistyped. Mini Kunjal checked every room ♡</p>
+      <a className="btn" href={href('')}>
+        Back to the house
+      </a>
+    </AppWindow>
+  );
+}
 
 export default function App() {
   const raw = useRoute();
   const route = resolve(raw);
   const [section] = route;
-  const world = worldById[section];
-  const first = useRef(true);
-  const pageKey = section === 'inventor' ? `inventor/${route[1] ?? ''}` : section ?? 'home';
+  const win = windowFor(route);
 
   useEffect(() => {
     if (raw[0] in ALIASES || (raw[0] === 'research' && raw[1] === 'map')) {
-      window.history.replaceState(null, '', `#/${route.filter(Boolean).join('/')}`);
+      window.history.replaceState(null, '', href(route.filter(Boolean).join('/')));
     }
   }, [raw, route]);
 
-  // On a page change: start at the top, move focus to the heading, and let
-  // Mini Kunjal introduce where we are.
+  // closing a window restores the title and hands focus back to the house
+  const prevSection = useRef(section);
   useEffect(() => {
-    document.documentElement.dataset.world = world?.id ?? (section === 'about' ? 'about' : 'home');
-    if (first.current) {
-      first.current = false;
-      return;
-    }
-    window.scrollTo(0, 0);
-    document.getElementById('page-title')?.focus({ preventScroll: true });
-    if (world) say(world.enter, world.pose);
-    else if (section === 'about') say(mission.enter, mission.pose);
-    else if (section === undefined) say('back home ✦ pick a world, or click anywhere and i’ll follow.', 'hello');
-  }, [pageKey]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Where she rests: on the crescent moon at home, in a corner elsewhere.
-  const restSpot = useCallback(() => {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    if (section === undefined && vw >= 1000) {
-      const moon = document.querySelector('.crescent');
-      if (moon) {
-        const r = moon.getBoundingClientRect();
-        if (r.width) return { x: r.left + r.width * 0.5, y: Math.min(r.top + r.height * 0.36, vh - 8) };
-      }
-      return { x: Math.max(110, vw * 0.12), y: vh - 30 };
-    }
-    return { x: vw, y: vh - 6 }; // clamped to the bottom-right corner
+    const closed = prevSection.current && !section;
+    prevSection.current = section;
+    if (section) return;
+    document.title = 'Kunjal.exe — Her Little Universe';
+    if (closed) document.getElementById('dollhouse-title')?.focus({ preventScroll: true });
   }, [section]);
 
   const skipToContent = (e) => {
@@ -113,13 +97,18 @@ export default function App() {
       <a className="skip-link" href="#main" onClick={skipToContent}>
         Skip to content
       </a>
-      <DreamSky world={world?.id ?? 'home'} />
-      <Header current={section === undefined ? '' : section} />
-      <main id="main" tabIndex={-1} key={pageKey} className="page-enter">
-        {pageFor(route)}
+      <TopBar current={section} />
+      <main id="main" tabIndex={-1} className="desk" inert={win ? '' : undefined} aria-hidden={win ? true : undefined}>
+        <Panel />
+        <Dollhouse onOpen={(to) => go(to)} />
       </main>
-      <Footer />
-      <Mascot restSpot={restSpot} restPose={world?.pose ?? (section === 'about' ? 'think' : 'hello')} greeting={GREETING} />
+      <footer className="foot">
+        <p>
+          Every room drawn in code · <span className="hand">made with ♡ in Thane, Mumbai</span> · ©{' '}
+          {new Date().getFullYear()} Kunjal Mahajan
+        </p>
+      </footer>
+      {win}
     </>
   );
 }

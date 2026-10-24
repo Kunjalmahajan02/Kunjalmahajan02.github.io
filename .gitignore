@@ -8,3 +8,5 @@ _work/
 .DS_Store
 Thumbs.db
 .claude/
+.shots/
+previews/

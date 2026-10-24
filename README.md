@@ -1,5 +1,7 @@
 # Kunjal.exe — Her Little Universe
 
+kunjalmahajan02.github.io
+
 The personal portfolio of **Kunjal Mahajan**, AI & Data Science engineer and creative technologist.
 
 The home page is **Mini Kunjal's home**: an illustrated isometric floor map (bedroom, living room, coding corner and entrance) surrounded by a fairy-lit garden, drawn entirely in code. Three more rooms have their own scenes and buttons: the **dance room** (mirror wall, barre, disco ball and a karaoke corner), the **walk room** (a lit runway for rampwalk practice) and the **art room** (easel, florals, paint desk).

@@ -1,40 +1,28 @@
-"""Builds public/og-image.png (1200x630), the link-preview image.
+"""Builds public/og-image.png (1200x630), the link-preview image, from the
+Dreamscape art in public/dream (built by tools/make_dreamscape.py).
 
-Her room (from public/art, built by make_art.py) on the right, fading into
-the night on the left where the title sits. Run from the repo root:
-    python tools/make_og.py
-Fonts: Georgia / Segoe UI / Consolas on Windows, DejaVu elsewhere."""
+Run from the repo root:  python tools/make_og.py
+Fonts: Georgia / Segoe UI on Windows, DejaVu elsewhere."""
 import glob
-import random
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 W, H = 1200, 630
-img = Image.new("RGB", (W, H), (27, 16, 41))
+img = Image.open("public/dream/sky-home.webp").convert("RGBA").resize((W, H), Image.LANCZOS)
 
-glow = Image.new("RGB", (W, H), (0, 0, 0))
-g = ImageDraw.Draw(glow)
-g.ellipse((-200, 380, 500, 900), fill=(90, 40, 80))
-img = Image.blend(img, glow.filter(ImageFilter.GaussianBlur(120)), 0.5)
 
-d = ImageDraw.Draw(img)
-rnd = random.Random(7)
-for _ in range(90):
-    x, y, r = rnd.uniform(0, 520), rnd.uniform(0, H), rnd.choice([1, 1, 1, 1.5, 2])
-    c = rnd.randint(150, 255)
-    d.ellipse((x - r, y - r, x + r, y + r), fill=(c, c - 10, c))
+def paste(path, height, xy):
+    im = Image.open(path).convert("RGBA")
+    im = im.resize((round(im.width * height / im.height), height), Image.LANCZOS)
+    img.alpha_composite(im, xy)
+    return im.size
 
-# her room: the girl, laptop, cat and books, faded in from the left
-room = Image.open("public/art/hero-1800.webp").convert("RGBA")
-RH = 780  # a little taller than the card, so the crop can stay on her side of the room
-room = room.resize((int(room.width * RH / room.height), RH), Image.LANCZOS)
-x0, x1 = int(room.width * 0.17), int(room.width * 0.555)  # between the erased bubble and menu card
-RW = x1 - x0
-room = room.crop((x0, RH - H - 40, x1, RH - 40))
-ramp = Image.linear_gradient("L").rotate(90, expand=True).resize((RW, H))  # dark → light, left → right
-alpha = ramp.point(lambda v: 255 if v > 110 else int(v / 110 * 255))
-room.putalpha(alpha)
-img.paste(room, (W - RW, 0), room)
+
+# the Kunjal.exe planet and Mini Kunjal beside it
+paste("public/dream/planet-core-900.webp", 330, (690, 60))
+paste("public/dream/planet-inventor-272.webp", 110, (1050, 380))
+paste("public/dream/planet-daydream-310.webp", 96, (600, 420))
+paste("public/dream/pose-hello-402.webp", 300, (835, 330))
 
 
 def font(patterns, size):
@@ -47,20 +35,21 @@ def font(patterns, size):
     return ImageFont.load_default()
 
 
-serif_i = font(["C:/Windows/Fonts/georgiaz.ttf", "C:/Windows/Fonts/georgiai.ttf", "/usr/share/fonts/**/DejaVuSerif-BoldItalic.ttf"], 92)
-body = font(["C:/Windows/Fonts/segoeui.ttf", "/usr/share/fonts/**/DejaVuSans.ttf"], 30)
-small = font(["C:/Windows/Fonts/segoeuib.ttf", "/usr/share/fonts/**/DejaVuSans-Bold.ttf"], 18)
+serif_i = font(["C:/Windows/Fonts/georgiaz.ttf", "/usr/share/fonts/**/DejaVuSerif-BoldItalic.ttf"], 96)
+body = font(["C:/Windows/Fonts/segoeuib.ttf", "/usr/share/fonts/**/DejaVuSans-Bold.ttf"], 22)
+hand = font(["C:/Windows/Fonts/segoeprb.ttf", "C:/Windows/Fonts/georgiai.ttf", "/usr/share/fonts/**/DejaVuSerif-Italic.ttf"], 30)
+small = font(["C:/Windows/Fonts/segoeui.ttf", "/usr/share/fonts/**/DejaVuSans.ttf"], 20)
 
-# glowing title
-layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-ld = ImageDraw.Draw(layer)
-ld.text((60, 190), "Kunjal.exe", font=serif_i, fill=(255, 150, 205, 255))
-img.paste(layer.filter(ImageFilter.GaussianBlur(14)), (0, 0), layer.filter(ImageFilter.GaussianBlur(14)))
+glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+ImageDraw.Draw(glow).text((60, 180), "Kunjal.exe", font=serif_i, fill=(243, 196, 220, 255))
+glow = glow.filter(ImageFilter.GaussianBlur(16))
+img.alpha_composite(glow)
 d = ImageDraw.Draw(img)
-d.text((60, 190), "Kunjal.exe", font=serif_i, fill=(255, 232, 244))
-d.text((64, 310), "Welcome to her little universe", font=body, fill=(255, 238, 247))
-d.text((66, 365), "ONE GIRL · A THOUSAND IDEAS · COUNTLESS SIDE QUESTS", font=small, fill=(240, 200, 225))
-d.text((66, 520), "Kunjal Mahajan · AI & Data Science", font=small, fill=(200, 175, 210))
-
-img.save("public/og-image.png", optimize=True)
+d.text((64, 140), "AN INTERACTIVE DREAMSCAPE", font=small, fill=(221, 167, 198))
+d.text((60, 180), "Kunjal", font=serif_i, fill=(255, 247, 251))
+d.text((60 + d.textlength("Kunjal", font=serif_i), 180), ".exe", font=serif_i, fill=(221, 167, 198))
+d.text((64, 300), "H E R   L I T T L E   U N I V E R S E", font=body, fill=(185, 174, 216))
+d.text((64, 350), "part engineer, part artist, entirely too curious.", font=hand, fill=(243, 196, 220))
+d.text((64, 540), "Kunjal Mahajan · AI & Data Science Engineer", font=small, fill=(215, 211, 223))
+img.convert("RGB").save("public/og-image.png", optimize=True)
 print("og-image.png written")

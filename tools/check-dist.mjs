@@ -31,12 +31,12 @@ for (const f of [
   'apple-touch-icon.png',
   'og-image.png',
   'mascot/avatar.webp',
-  'art/hero-1100.webp',
-  'art/hero-2600.webp',
-  'art/universe-1100.webp',
-  'art/universe-2600.webp',
-  'art/robot-os-336.webp',
-  'art/icon-terminal.webp',
+  'resume/Kunjal_Mahajan_Resume.pdf',
+  'dream/planet-core-900.webp',
+  'dream/pose-hello-402.webp',
+  'dream/pose-dance-412.webp',
+  'dream/sky-home.webp',
+  'art/mood-dance-636.webp',
 ]) {
   if (!existsSync(join(dist, f))) fail(`missing asset: ${f}`);
 }
@@ -55,7 +55,7 @@ for (const file of walk(dist).filter((f) => f.endsWith('.css'))) {
 // 5. Nothing secret-looking slipped into the bundle.
 for (const file of walk(dist).filter((f) => /\.(js|html|css)$/.test(f))) {
   const text = readFileSync(file, 'utf8');
-  if (/(api[_-]?key|secret|BEGIN [A-Z ]*PRIVATE KEY)\s*[:=]/i.test(text)) fail(`possible secret in ${file}`);
+  if (/(api[_-]?key|secret[_-]?key|access[_-]?token|client[_-]?secret)\s*[:=]\s*["'`][A-Za-z0-9_\-]{12,}|BEGIN [A-Z ]*PRIVATE KEY|sk-[A-Za-z0-9]{20,}/i.test(text)) fail(`possible secret in ${file}`);
 }
 
 if (errors.length) {

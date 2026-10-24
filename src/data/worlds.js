@@ -1,73 +1,63 @@
-// The illustrated universe (public/art/universe-*.webp). Each world is a
-// clickable planet in that artwork. Positions are percentages of the artwork
-// box: `x`/`y` is the planet centre, `r` its radius (of the width), and
-// `label` where its name is drawn.
+// The four worlds of the Dreamscape (plus Mission Control). `planet` names an
+// illustration in public/dream (planet-<name>-<w>.webp), `pose` is the pose
+// Mini Kunjal takes there, and the lines are what she says.
 export const worlds = [
   {
-    id: 'ai-lab',
-    name: 'AI Lab',
-    lines: ['ML · DL · CV', 'Projects & experiments'],
-    route: 'projects',
-    x: 21.3, y: 23.7, r: 4.2,
-    label: { x: 26.3, y: 19.6 },
+    id: 'inventor',
+    index: '01',
+    name: 'Inventor’s Planet',
+    theme: 'AI, engineering & experiments',
+    blurb: 'Projects — what I built, how it works, and what I’d improve.',
+    planet: { file: 'planet-inventor-272', w: 272, h: 279 },
+    pose: 'work',
+    enter: 'welcome to the lab ♡ everything here was built, broken and rebuilt.',
+    hint: 'this planet is where my ideas get a little too ambitious.',
+    home: { x: 74, y: 22 },
   },
   {
-    id: 'language-nebula',
-    name: 'Language Nebula',
-    lines: ['NLP · Speech · Multilingual', 'Translation Engine'],
-    route: 'projects/speech',
-    x: 47.5, y: 26.7, r: 3.6,
-    label: { x: 51.9, y: 22.6 },
+    id: 'observatory',
+    index: '02',
+    name: 'Observatory Beyond',
+    theme: 'Research & open questions',
+    blurb: 'The questions I keep looking up at.',
+    planet: { file: 'planet-observatory-242', w: 242, h: 296 },
+    pose: 'think',
+    enter: 'point the telescope anywhere — these are the questions I can’t stop thinking about.',
+    hint: 'curious what i’m curious about? look up.',
+    home: { x: 88, y: 50 },
   },
   {
-    id: 'vision-station',
-    name: 'Vision Station',
-    lines: ['BlinkBridge AI', 'Human-computer interaction'],
-    route: 'projects/blinkbridge',
-    x: 76.0, y: 27.7, r: 4.6,
-    label: { x: 81.1, y: 20.6 },
+    id: 'garden',
+    index: '03',
+    name: 'Thought Garden',
+    theme: 'How my ideas connect',
+    blurb: 'Projects, tools and themes, growing into each other.',
+    planet: { file: 'planet-garden-241', w: 241, h: 287 },
+    pose: 'hello',
+    enter: 'welcome to my brain. it’s a little chaotic in here — tap a flower.',
+    hint: 'tiny detour? i promise it’s worth it.',
+    home: { x: 70, y: 80 },
   },
   {
-    id: 'open-questions',
-    name: 'Open Questions',
-    lines: ['Research interests', 'Future projects'],
-    route: 'research',
-    x: 17.1, y: 43.4, r: 3.9,
-    label: { x: 20.8, y: 39.9 },
-  },
-  {
-    id: 'data-realm',
-    name: 'Data Realm',
-    lines: ['Analytics · Visualization', 'How it all connects'],
-    route: 'research/map',
-    x: 76.0, y: 52.9, r: 4.6,
-    label: { x: 80.7, y: 47.8 },
-  },
-  {
-    id: 'mission-control',
-    name: 'Mission Control',
-    lines: ['About · Contact', 'Kunjal.exe OS'],
-    route: 'contact',
-    x: 23.6, y: 63.3, r: 4.1,
-    label: { x: 19.3, y: 68.0 },
-  },
-  {
-    id: 'idea-archive',
-    name: 'Idea Archive',
-    lines: ['Research notes', 'Logs · Learnings'],
-    route: 'archive',
-    x: 80.1, y: 72.8, r: 4.2,
-    label: { x: 85.3, y: 70.8 },
-  },
-  {
-    id: 'creative-planet',
-    name: 'Creative Planet',
-    lines: ['Art · Fashion · Modeling', 'Dance · Lifestyle'],
-    route: 'creative',
-    x: 62.6, y: 78.6, r: 4.6,
-    label: { x: 60.5, y: 84.5 },
+    id: 'daydream',
+    index: '04',
+    name: 'Daydream District',
+    theme: 'Dance, art, fashion & modeling',
+    blurb: 'The creative side of my brain lives over here.',
+    planet: { file: 'planet-daydream-310', w: 310, h: 279 },
+    pose: 'dance',
+    enter: 'the creative side of my brain lives here ♡ dance, art, fashion, all of it.',
+    hint: 'okay, this one’s one of my favourites.',
+    home: { x: 42, y: 84 },
   },
 ];
 
-// The big bowed planet in the middle: Kunjal.exe itself.
-export const core = { name: 'Kunjal.exe — her little universe', route: '', x: 49.8, y: 55.4, r: 8.6 };
+export const mission = {
+  id: 'about',
+  name: 'Mission Control',
+  theme: 'About, résumé & contact',
+  pose: 'think',
+  enter: 'mission control ✦ résumé, contact, and the less dreamy details.',
+};
+
+export const worldById = Object.fromEntries(worlds.map((w) => [w.id, w]));

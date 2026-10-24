@@ -1,9 +1,9 @@
-// AI Lab case studies.
+// Inventor's Planet case studies.
 //
-// `evidence` records where each case study's facts come from. Only BlinkBridge
-// and ChainTrack have public repositories; the speech engine is described from
-// the project brief and is marked as unverified on the site until its code is
-// published.
+// `evidence` records where each case study's facts come from: BlinkBridge and
+// ChainTrack were checked against their public repositories; the other
+// projects are described from Kunjal's résumé and the project brief, and are
+// labelled that way on the site. No metrics or results are invented.
 
 export const projects = [
   {
@@ -14,10 +14,12 @@ export const projects = [
     tagline: 'Eye blinks in, Morse code out — then text, translation and speech.',
     summary:
       'A computer-vision prototype that reads Morse code from eye blinks, from a live webcam or a recorded video, and decodes it into text in English and 14 Indian languages.',
-    status: 'Academic prototype',
+    status: 'Founder project · ongoing',
+    role: 'Founder — building BlinkBridge, an assistive communication tool for people who cannot speak or type.',
+    why: 'For someone with severe motor impairment, a webcam and their eyes may be the only reliable way left to communicate. A tool that works with ordinary hardware, adapts to each person and speaks the message aloud lowers that barrier.',
     evidence: {
       level: 'verified',
-      note: 'Details checked against the public repository (code, README and evaluation files).',
+      note: 'Checked against the public repository (code, README and evaluation files) and Kunjal’s résumé.',
     },
     links: [{ label: 'GitHub repository', href: 'https://github.com/Kunjalmahajan02/Blink-to-Morse' }],
     stack: [
@@ -31,6 +33,13 @@ export const projects = [
       'pyttsx3 / gTTS',
       'indic-transliteration',
     ],
+    highlights: [
+      'Modular Python architecture — blink detection, head-gesture recognition, Morse translation, calibration, speech output and session logging are separate components that can be tested and improved independently.',
+      'Auto-calibration adapts detection to each user’s eyes and camera; a countdown-based interface guides each input.',
+      'Head nods and turns act as extra input gestures alongside blinks.',
+      'Decoded messages are spoken aloud with text-to-speech, and every session is logged.',
+    ],
+    improve: ['Adaptive timing in live webcam mode', 'Telling intentional blinks from involuntary ones', 'Running on low-power edge hardware'],
     problem:
       'Some people can’t speak or use their hands but can still control their eyes — patients with severe motor impairments, or someone filmed against their will. Morse code blinked on camera can carry a message, but only if someone notices it and decodes it reliably.',
     solution:
@@ -82,9 +91,11 @@ export const projects = [
     summary:
       'An AI speech-processing project that transcribes English speech and translates it into Hindi, Marathi, Korean, Japanese, Turkish and Spanish, with optional spoken output.',
     status: 'Project',
+    why: 'Most speech tools assume one language. Turning a single English recording into readable — and audible — Hindi, Marathi, Korean, Japanese, Turkish or Spanish makes it useful to far more listeners.',
+    improve: ['Publishing the code', 'Testing translation quality for each target language with native speakers'],
     evidence: {
       level: 'unverified',
-      note: 'The source code isn’t public yet, so this case study is based on the project description only. Technologies are listed as reported; no accuracy or production-readiness claims are made.',
+      note: 'The source code isn’t public yet, so this is based on the project description and Kunjal’s résumé. No accuracy or production-readiness claims are made.',
     },
     links: [],
     stack: ['Python', 'Gradio', 'AssemblyAI', 'A translation library', 'ElevenLabs (text-to-speech)'],
@@ -125,6 +136,8 @@ export const projects = [
     summary:
       'A Solidity smart contract that records product registration and every change of custody — Manufacturer → Distributor → Retailer — on an EVM blockchain, with the rules enforced by the contract itself.',
     status: 'Prototype on a local test network',
+    why: 'When every party keeps its own records, custody can be disputed or quietly edited. Putting the rules and the history in a shared contract means no single party can rewrite who held a product.',
+    improve: ['Linking products to trusted real-world inputs — QR codes, tamper-proof tags or IoT sensors', 'Deploying beyond the local test network'],
     evidence: {
       level: 'verified',
       note: 'Details checked against the public repository (contract source, README, architecture notes and test cases).',
@@ -186,6 +199,77 @@ export const projects = [
     ],
     evaluation:
       'The repository documents 10 test cases run in Remix VM, all passing, with screenshots of every test and transaction details in the project report.',
+  },
+  {
+    id: 'tb-detection',
+    moon: 'MOON 04',
+    name: 'Tuberculosis Detection from Chest X-Rays',
+    tagline: 'A CNN that reads chest X-rays for signs of tuberculosis.',
+    summary: 'A deep learning system that detects tuberculosis from chest X-ray images using CNN-based medical image analysis, to support early detection.',
+    status: 'Project',
+    why: 'Early detection matters for TB, and reading X-rays takes trained specialists. An automated first look can help flag images that need attention.',
+    evidence: { level: 'unverified', note: 'Described from Kunjal’s résumé; the code isn’t public yet. No accuracy figures are claimed.' },
+    links: [],
+    stack: ['Python', 'Deep learning', 'CNN', 'Medical image processing'],
+    problem: 'Tuberculosis screening relies on reading chest X-rays, which needs expertise and time that isn’t always available.',
+    solution: 'A convolutional neural network learns patterns in chest X-ray images and classifies them, as a support tool for early detection.',
+    flow: [
+      { label: 'Chest X-ray', detail: 'An X-ray image is the input.' },
+      { label: 'Pre-processing', detail: 'The image is prepared for the network (medical image processing).' },
+      { label: 'CNN', detail: 'A convolutional neural network extracts visual features.' },
+      { label: 'Prediction', detail: 'The model outputs whether signs of tuberculosis are detected.' },
+    ],
+    decisions: [],
+    lessons: [],
+    improve: ['Publishing the code and evaluation', 'Explaining predictions visually (e.g. heat-maps) for clinicians'],
+    evaluation: null,
+  },
+  {
+    id: 'inventory',
+    moon: 'MOON 05',
+    name: 'Inventory Management & Billing System',
+    tagline: 'Stock, billing and reports — automated with Python and MySQL.',
+    summary: 'A Python and MySQL system that automates inventory tracking, billing and report generation, with a structured, user-friendly interface for stock and sales management.',
+    status: 'Project',
+    why: 'Small shops often track stock and bills by hand; automating it reduces errors and saves time.',
+    evidence: { level: 'unverified', note: 'Described from Kunjal’s résumé; the code isn’t public yet.' },
+    links: [],
+    stack: ['Python', 'MySQL'],
+    problem: 'Tracking stock, writing bills and producing sales reports by hand is slow and error-prone.',
+    solution: 'A Python application backed by a MySQL database that records stock, generates bills and produces reports.',
+    flow: [
+      { label: 'Stock entry', detail: 'Products and quantities are recorded in MySQL.' },
+      { label: 'Billing', detail: 'Sales generate bills and update stock.' },
+      { label: 'Reports', detail: 'Stock and sales reports are generated from the database.' },
+    ],
+    decisions: [],
+    lessons: [],
+    improve: [],
+    evaluation: null,
+  },
+  {
+    id: 'hangman',
+    moon: 'MOON 06',
+    name: 'Hangman Game',
+    tagline: 'A classic word game, written in Python.',
+    summary: 'An interactive Hangman game in Python with clean game-flow logic and a user-friendly interface.',
+    status: 'Project',
+    why: 'A small, complete program — a good exercise in game state, input handling and clear flow.',
+    evidence: { level: 'unverified', note: 'Described from Kunjal’s résumé.' },
+    links: [],
+    stack: ['Python'],
+    problem: 'Build a complete interactive game with clear rules and state.',
+    solution: 'A Python game loop that tracks guesses, remaining lives and the revealed word.',
+    flow: [
+      { label: 'Pick a word', detail: 'The game chooses a secret word.' },
+      { label: 'Guess', detail: 'The player guesses letters.' },
+      { label: 'Reveal or lose a life', detail: 'Correct letters are revealed; wrong ones cost a life.' },
+      { label: 'Win or lose', detail: 'The game ends when the word is found or lives run out.' },
+    ],
+    decisions: [],
+    lessons: [],
+    improve: [],
+    evaluation: null,
   },
 ];
 

@@ -9,7 +9,7 @@ import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/500.css';
 import './styles/tokens.css';
 import './styles/base.css';
-import './styles/pages.css';
+import './styles/dream.css';
 import App from './App.jsx';
 import { initMotion } from './motion.js';
 

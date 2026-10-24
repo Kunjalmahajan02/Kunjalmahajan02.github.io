@@ -5,25 +5,28 @@ import { go } from '../router.js';
 
 const PAGES = {
   home: '',
-  universe: 'universe',
-  projects: 'projects',
-  research: 'research',
-  archive: 'archive',
-  creative: 'creative',
-  contact: 'contact',
-  ...Object.fromEntries(projects.map((p) => [p.id, `projects/${p.id}`])),
+  universe: '',
+  inventor: 'inventor',
+  projects: 'inventor',
+  observatory: 'observatory',
+  research: 'observatory',
+  garden: 'garden',
+  daydream: 'daydream',
+  creative: 'daydream',
+  about: 'about',
+  ...Object.fromEntries(projects.map((p) => [p.id, `inventor/${p.id}`])),
 };
 
 const HELP = [
-  'whoami     — know more about me',
-  'projects   — view my work',
-  'research   — explore my interests',
-  'creative   — art, dance, fashion',
-  'archive    — notes & ideas',
-  'universe   — see every planet',
-  'contact    — let’s connect',
-  'vibe       — just vibe ♡',
-  'clear      — clear terminal',
+  'whoami        — know more about me',
+  'projects      — Inventor’s Planet',
+  'research      — Observatory Beyond',
+  'garden        — the Thought Garden',
+  'creative      — Daydream District',
+  'resume        — open my résumé',
+  'contact       — let’s connect',
+  'open <name>   — e.g. open blinkbridge',
+  'clear         — clear terminal',
 ];
 
 function run(input, actions) {
@@ -36,15 +39,16 @@ function run(input, actions) {
       return ['here are some commands:', ...HELP.map((h) => `  › ${h}`)];
     case 'whoami':
       actions.whoami?.();
-      return [`${profile.name}`, `${profile.role} · ${profile.college}`, profile.location];
+      return [profile.name, profile.headline, profile.location];
     case 'contact': {
       const { github, linkedin, email } = profile.links;
       actions.contact?.();
       return ['find me here:', github && `  github   ${github}`, linkedin && `  linkedin ${linkedin}`, email && `  email    ${email}`].filter(Boolean);
     }
-    case 'vibe':
-      actions.vibe?.();
-      return ['vibe mode toggled ♡'];
+    case 'resume':
+    case 'cv':
+      window.open(`${import.meta.env.BASE_URL}${profile.links.resume}`, '_blank', 'noopener');
+      return ['opening my résumé in a new tab ↗'];
     case 'ls':
       return [Object.keys(PAGES).join('  ')];
     case 'sudo':

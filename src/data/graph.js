@@ -10,18 +10,18 @@ export const kinds = {
 
 export const nodes = [
   // projects
-  { id: 'blinkbridge', kind: 'project', label: 'BlinkBridge AI', x: 290, y: 330, route: 'projects/blinkbridge', note: 'Blink-to-Morse decoding from webcam or video.' },
-  { id: 'speech', kind: 'project', label: 'Speech Translation Engine', x: 680, y: 240, route: 'projects/speech', note: 'English speech → text → six languages → optional speech.' },
-  { id: 'chaintrack', kind: 'project', label: 'ChainTrack', x: 790, y: 500, route: 'projects/chaintrack', note: 'Supply-chain custody enforced by a smart contract.' },
+  { id: 'blinkbridge', kind: 'project', label: 'BlinkBridge AI', x: 290, y: 330, route: 'inventor/blinkbridge', note: 'Blink-to-Morse decoding from webcam or video.' },
+  { id: 'speech', kind: 'project', label: 'Speech Translation Engine', x: 680, y: 240, route: 'inventor/speech', note: 'English speech → text → six languages → optional speech.' },
+  { id: 'chaintrack', kind: 'project', label: 'ChainTrack', x: 790, y: 500, route: 'inventor/chaintrack', note: 'Supply-chain custody enforced by a smart contract.' },
 
   // research themes
-  { id: 't-vision', kind: 'theme', label: 'Computer vision', x: 170, y: 160, route: 'research/vision', note: 'Landmarks, eye aspect ratio, low-light enhancement.' },
-  { id: 't-hci', kind: 'theme', label: 'Accessible HCI', x: 320, y: 545, route: 'research/hci', note: 'Blinks and head gestures as input.' },
-  { id: 't-deep', kind: 'theme', label: 'Deep learning', x: 505, y: 360, route: 'research/deep', note: 'The neural networks underneath vision and speech tools.' },
-  { id: 't-speech', kind: 'theme', label: 'Speech processing', x: 560, y: 95, route: 'research/speech', note: 'Recognition and synthesis.' },
-  { id: 't-nlp', kind: 'theme', label: 'Multilingual NLP', x: 845, y: 110, route: 'research/nlp', note: 'Translation and transliteration across languages.' },
+  { id: 't-vision', kind: 'theme', label: 'Computer vision', x: 170, y: 160, route: 'observatory/vision', note: 'Landmarks, eye aspect ratio, low-light enhancement.' },
+  { id: 't-hci', kind: 'theme', label: 'Accessible HCI', x: 320, y: 545, route: 'observatory/hci', note: 'Blinks and head gestures as input.' },
+  { id: 't-deep', kind: 'theme', label: 'Deep learning', x: 505, y: 360, route: 'observatory/deep', note: 'The neural networks underneath vision and speech tools.' },
+  { id: 't-speech', kind: 'theme', label: 'Speech processing', x: 560, y: 95, route: 'observatory/speech', note: 'Recognition and synthesis.' },
+  { id: 't-nlp', kind: 'theme', label: 'Multilingual NLP', x: 845, y: 110, route: 'observatory/nlp', note: 'Translation and transliteration across languages.' },
   { id: 't-eval', kind: 'theme', label: 'Model evaluation', x: 555, y: 490, route: null, note: 'Measuring how often a system works, and where it fails.' },
-  { id: 't-data', kind: 'theme', label: 'Data visualization', x: 420, y: 455, route: 'research/data', note: 'Plots that make signals and results readable.' },
+  { id: 't-data', kind: 'theme', label: 'Data visualization', x: 420, y: 455, route: 'observatory/data', note: 'Plots that make signals and results readable.' },
   { id: 't-chain', kind: 'theme', label: 'Blockchain & trust', x: 925, y: 380, route: null, note: 'Shared records no single party can quietly edit.' },
 
   // technologies
